@@ -24,15 +24,14 @@ if ($password !== $confirm)
 if (strlen($password) < 8)
     respond(false, 'Password must be at least 8 characters.', 422);
 
-/* Email username must match UIU format: letters then digits, e.g. tpranto2331028 */
+/* UIU email format: letters then digits, e.g. tpranto2331028 */
 if (!preg_match('/^[a-zA-Z]+\d+$/', $emailUser))
-    respond(false, 'Email username must be in UIU format: letters followed by digits (e.g. tpranto2331028).', 422);
+    respond(false, 'Email must match UIU format: letters followed by digits (e.g. tpranto2331028).', 422);
 
 if (!preg_match('/^\d{10}$/', $studentId))
     respond(false, 'Student ID must be exactly 10 digits (e.g. 0112010000).', 422);
 
-/* ── File upload (optional — store if provided) ── */
-$profilePhotoPath = null;
+/* ── ID card upload (optional — saved for future verification, NOT used as profile photo) ── */
 if (isset($_FILES['idUpload']) && $_FILES['idUpload']['error'] === UPLOAD_ERR_OK) {
     $file    = $_FILES['idUpload'];
     $allowed = ['image/jpeg','image/png','image/gif','image/webp'];
@@ -45,17 +44,15 @@ if (isset($_FILES['idUpload']) && $_FILES['idUpload']['error'] === UPLOAD_ERR_OK
     if ($file['size'] > 5 * 1024 * 1024)
         respond(false, 'ID image must be smaller than 5 MB.', 422);
 
-    $uploadDir = __DIR__ . '/uploads/';
+    $uploadDir = __DIR__ . '/uploads/id_cards/';
     if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
 
     $ext          = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
     $safeFileName = 'id_' . $studentId . '_' . time() . '.' . $ext;
-    $dest         = $uploadDir . $safeFileName;
 
-    if (!move_uploaded_file($file['tmp_name'], $dest))
-        respond(false, 'Failed to save ID image.', 500);
-
-    $profilePhotoPath = 'uploads/' . $safeFileName;
+    /* Save to a separate id_cards subfolder — not used as profile picture */
+    move_uploaded_file($file['tmp_name'], $uploadDir . $safeFileName);
+    /* (We ignore the path — will wire it to a verification column later) */
 }
 
 /* ── Duplicate check ── */
@@ -67,14 +64,14 @@ if ($stmt->num_rows > 0)
     respond(false, 'An account with this email or Student ID already exists.', 409);
 $stmt->close();
 
-/* ── Insert — is_verified = 1 so user can log in immediately ── */
+/* ── Insert — profile_photo is NULL (avatar generated from initials) ── */
 $hash = password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]);
 
 $ins = $conn->prepare('
     INSERT INTO USER (full_name, email, password_hash, phone, student_id, department, profile_photo, role, is_verified, is_active)
-    VALUES (?, ?, ?, ?, ?, ?, ?, "student", 1, 1)
+    VALUES (?, ?, ?, ?, ?, ?, NULL, "student", 1, 1)
 ');
-$ins->bind_param('sssssss', $fullName, $email, $hash, $phone, $studentId, $department, $profilePhotoPath);
+$ins->bind_param('ssssss', $fullName, $email, $hash, $phone, $studentId, $department);
 
 if (!$ins->execute())
     respond(false, 'Registration failed: ' . $conn->error, 500);

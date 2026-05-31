@@ -57,7 +57,8 @@
 
     avatarHTML: function (user, size) {
       size = size || 36;
-      if (user && user.profile_photo) {
+      var hasPhoto = user && user.profile_photo && user.profile_photo.trim() !== '';
+      if (hasPhoto) {
         return '<img src="' + user.profile_photo + '" alt="' + user.full_name + '" style="width:' + size + 'px;height:' + size + 'px;border-radius:50%;object-fit:cover;">';
       }
       var initials = user ? user.full_name.split(' ').map(function(n){return n[0];}).join('').substring(0,2).toUpperCase() : 'G';

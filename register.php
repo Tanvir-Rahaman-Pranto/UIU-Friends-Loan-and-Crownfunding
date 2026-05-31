@@ -31,10 +31,12 @@ if (!preg_match('/^[a-zA-Z]+\d+$/', $emailUser))
 if (!preg_match('/^\d{10}$/', $studentId))
     respond(false, 'Student ID must be exactly 10 digits (e.g. 0112010000).', 422);
 
-/* ── ID card upload (optional — saved for future verification, NOT used as profile photo) ── */
+/* ── ID card upload → saved to id_photo column ── */
+$idPhotoPath = null;
+
 if (isset($_FILES['idUpload']) && $_FILES['idUpload']['error'] === UPLOAD_ERR_OK) {
     $file    = $_FILES['idUpload'];
-    $allowed = ['image/jpeg','image/png','image/gif','image/webp'];
+    $allowed = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
     $finfo   = new finfo(FILEINFO_MIME_TYPE);
     $mime    = $finfo->file($file['tmp_name']);
 
@@ -49,14 +51,16 @@ if (isset($_FILES['idUpload']) && $_FILES['idUpload']['error'] === UPLOAD_ERR_OK
 
     $ext          = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
     $safeFileName = 'id_' . $studentId . '_' . time() . '.' . $ext;
+    $destPath     = $uploadDir . $safeFileName;
 
-    /* Save to a separate id_cards subfolder — not used as profile picture */
-    move_uploaded_file($file['tmp_name'], $uploadDir . $safeFileName);
-    /* (We ignore the path — will wire it to a verification column later) */
+    if (move_uploaded_file($file['tmp_name'], $destPath)) {
+        /* Store a relative path that the app can use later */
+        $idPhotoPath = 'uploads/id_cards/' . $safeFileName;
+    }
 }
 
 /* ── Duplicate check ── */
-$stmt = $conn->prepare('SELECT user_id FROM USER WHERE email = ? OR student_id = ? LIMIT 1');
+$stmt = $conn->prepare('SELECT user_id FROM user WHERE email = ? OR student_id = ? LIMIT 1');
 $stmt->bind_param('ss', $email, $studentId);
 $stmt->execute();
 $stmt->store_result();
@@ -64,14 +68,23 @@ if ($stmt->num_rows > 0)
     respond(false, 'An account with this email or Student ID already exists.', 409);
 $stmt->close();
 
-/* ── Insert — profile_photo is NULL (avatar generated from initials) ── */
+/* ── Insert ──
+   Columns present in DB:
+     full_name, email, password_hash, phone, student_id, department,
+     profile_photo (NULL — avatar from initials),
+     id_photo      (path saved if uploaded, else NULL),
+     role, is_active
+   NOTE: is_verified does NOT exist in this schema — omitted.
+── */
 $hash = password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]);
 
 $ins = $conn->prepare('
-    INSERT INTO USER (full_name, email, password_hash, phone, student_id, department, profile_photo, role, is_verified, is_active)
-    VALUES (?, ?, ?, ?, ?, ?, NULL, "student", 1, 1)
+    INSERT INTO user
+        (full_name, email, password_hash, phone, student_id, department,
+         profile_photo, id_photo, role, is_active)
+    VALUES (?, ?, ?, ?, ?, ?, NULL, ?, "student", 1)
 ');
-$ins->bind_param('ssssss', $fullName, $email, $hash, $phone, $studentId, $department);
+$ins->bind_param('sssssss', $fullName, $email, $hash, $phone, $studentId, $department, $idPhotoPath);
 
 if (!$ins->execute())
     respond(false, 'Registration failed: ' . $conn->error, 500);

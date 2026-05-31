@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — UIU Friends Network</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+  <link rel="stylesheet" href="dashboardstyle.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       SIDEBAR
+       ═══════════════════════════════════════════ -->
+  <aside class="sidebar" id="sidebar">
+
+    <!-- Hamburger close (mobile) -->
+    <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close menu">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+
+    <!-- Logo -->
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <span class="material-symbols-outlined">handshake</span>
+      </div>
+      <div class="sidebar-title">
+        <h1>UIU Friends</h1>
+        <p>Loan &amp; Crowdfunding</p>
+      </div>
+    </div>
+
+    <!-- Nav links -->
+    <nav class="sidebar-nav">
+      <a href="dashboard.html" class="nav-link active">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span class="text">Dashboard</span>
+      </a>
+      <a href="marketplace.html" class="nav-link">
+        <span class="material-symbols-outlined">storefront</span>
+        <span class="text">Loan Marketplace</span>
+      </a>
+      <a href="crowdfunding.html" class="nav-link">
+        <span class="material-symbols-outlined">volunteer_activism</span>
+        <span class="text">Crowdfunding Hub</span>
+      </a>
+      <a href="agreement.html" class="nav-link">
+        <span class="material-symbols-outlined">description</span>
+        <span class="text">My Agreements</span>
+      </a>
+      <a href="profile.html" class="nav-link">
+        <span class="material-symbols-outlined">verified_user</span>
+        <span class="text">Profile &amp; Trust</span>
+      </a>
+    </nav>
+
+    <!-- Trust score box — uses avg_rating (float) from USER table -->
+    <div class="trust-score-box">
+      <p class="trust-score-title">Your Trust Score</p>
+      <div class="trust-score-value">
+        <span class="score" id="sidebarRating">--</span>
+        <span class="trust-score-meta" id="sidebarReviews"></span>
+        <span class="material-symbols-outlined">verified</span>
+      </div>
+    </div>
+
+    <!-- Footer links -->
+    <div class="sidebar-footer">
+      <a href="#" class="nav-link footer-link">
+        <span class="material-symbols-outlined">help</span>
+        <span class="text">Help &amp; Support</span>
+      </a>
+      <a href="logout.php" class="nav-link footer-link logout">
+        <span class="material-symbols-outlined">logout</span>
+        <span class="text">Logout</span>
+      </a>
+    </div>
+
+  </aside>
+
+  <!-- Mobile overlay backdrop -->
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+
+  <!-- ═══════════════════════════════════════════
+       MAIN CONTENT
+       ═══════════════════════════════════════════ -->
+  <main class="main-content">
+
+    <!-- Top Navbar -->
+    <header class="top-navbar">
+      <!-- Hamburger (mobile) -->
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+
+      <div class="search-area">
+        <span class="material-symbols-outlined">search</span>
+        <input type="text" class="search-input" placeholder="Search loans, campaigns, or students…" />
+      </div>
+
+      <div class="user-area">
+        <button class="notification-btn" id="notifBtn" aria-label="Notifications">
+          <span class="material-symbols-outlined">notifications</span>
+          <span class="notification-dot" id="notifDot" style="display:none;"></span>
+        </button>
+        <div class="user-profile">
+          <div class="user-info">
+            <!-- Populated by auth.js via data-auth attributes -->
+            <p class="user-name" data-auth="user-name">Loading…</p>
+            <p class="user-trust">Rating: <span id="navbarRating">--</span> / 5</p>
+          </div>
+          <!--
+            Avatar: auth.js fills this link with either an <img> (if profile_photo set)
+            or the user's initials. The CSS keeps it circular and blue by default.
+          -->
+          <a href="profile.html" class="user-avatar-link" data-auth="avatar" data-size="40"></a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page body -->
+    <div class="page-container">
+
+      <!-- Hero Banner -->
+      <div class="hero-banner">
+        <div class="hero-text">
+          <h2 data-auth="welcome">Welcome to UIU Friends!</h2>
+          <!-- Greeting changes with time of day -->
+          <p id="heroSubtext">Here is what's happening in the UIU community today.</p>
+        </div>
+        <div class="hero-actions">
+          <button class="btn btn-white" id="btnRequestLoan">
+            <span class="material-symbols-outlined">add_circle</span>
+            Request a Loan
+          </button>
+          <button class="btn btn-green" id="btnStartCampaign">
+            <span class="material-symbols-outlined">volunteer_activism</span>
+            Start a Campaign
+          </button>
+        </div>
+      </div>
+
+      <!-- Stats Row — 4 cards matching DB aggregates -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-icon blue-icon">
+            <span class="material-symbols-outlined">account_balance</span>
+          </div>
+          <div class="stat-body">
+            <div class="stat-label">Active Loan Requests</div>
+            <div class="stat-number" id="statLoans">--</div>
+            <div class="stat-note green-text" id="statLoansNote">Loading…</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green-icon">
+            <span class="material-symbols-outlined">campaign</span>
+          </div>
+          <div class="stat-body">
+            <div class="stat-label">Active Campaigns</div>
+            <div class="stat-number" id="statCampaigns">--</div>
+            <div class="stat-note green-text" id="statCampaignsNote">Loading…</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon orange-icon">
+            <span class="material-symbols-outlined">gavel</span>
+          </div>
+          <div class="stat-body">
+            <div class="stat-label">Your Active Bids</div>
+            <div class="stat-number" id="statBids">--</div>
+            <div class="stat-note" id="statBidsNote">Loading…</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon purple-icon">
+            <span class="material-symbols-outlined">favorite</span>
+          </div>
+          <div class="stat-body">
+            <div class="stat-label">Your Total Donations</div>
+            <div class="stat-number" id="statDonations">--</div>
+            <div class="stat-note purple-text" id="statDonationsNote">Total contributed</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Two column panels -->
+      <div class="two-col">
+
+        <!-- Urgent Loan Requests -->
+        <div class="panel">
+          <div class="panel-header">
+            <h3>
+              <span class="material-symbols-outlined panel-icon blue-panel-icon">receipt_long</span>
+              Urgent Loan Requests
+            </h3>
+            <a href="marketplace.html">View All →</a>
+          </div>
+          <div class="cards-list" id="loanCardsContainer">
+            <div class="empty-state skeleton-pulse">Loading…</div>
+          </div>
+        </div>
+
+        <!-- Trending Campaigns -->
+        <div class="panel">
+          <div class="panel-header">
+            <h3>
+              <span class="material-symbols-outlined panel-icon green-panel-icon">volunteer_activism</span>
+              Trending Campaigns
+            </h3>
+            <a href="crowdfunding.html">Explore More →</a>
+          </div>
+          <div class="cards-list" id="campaignCardsContainer">
+            <div class="empty-state skeleton-pulse">Loading…</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+
+  <!-- ═══════════════════════════════════════════
+       LOAN REQUEST MODAL
+       ═══════════════════════════════════════════ -->
+  <div id="loanModal" class="modal-overlay" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="loanModalTitle">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="loanModalTitle">Post a Loan Request</h3>
+        <button class="modal-close" id="loanModalCloseBtn" aria-label="Close modal">✕</button>
+      </div>
+      <div id="loanModalBanner" class="form-banner" style="display:none;"></div>
+      <div class="form-grid">
+        <div class="form-field full">
+          <label for="lm_amount">Amount (BDT) <span class="req">*</span></label>
+          <input id="lm_amount" type="number" min="1" placeholder="e.g. 5000">
+        </div>
+        <div class="form-field full">
+          <label for="lm_purpose">Purpose <span class="req">*</span></label>
+          <input id="lm_purpose" type="text" placeholder="e.g. Semester tuition fee">
+        </div>
+        <div class="form-field full">
+          <label for="lm_details">Details</label>
+          <textarea id="lm_details" rows="3" placeholder="Briefly explain your situation…"></textarea>
+        </div>
+        <div class="form-field">
+          <label for="lm_deadline">Repayment Deadline</label>
+          <input id="lm_deadline" type="date">
+        </div>
+        <div class="form-field">
+          <label for="lm_interest">Max Interest Rate (%)</label>
+          <input id="lm_interest" type="number" min="0" step="0.1" placeholder="e.g. 5">
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button id="lm_submit" class="btn-primary-action">Submit Request</button>
+        <button id="lm_cancel" class="btn-secondary-action">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="auth.js"></script>
+  <script>
+  /* ── Auth init ── */
+  Auth.init({
+    requireLogin: true,
+    onReady: function(user) {
+      /* Populate trust score / avg_rating in sidebar and navbar.
+         USER table: avg_rating FLOAT default 0, total_reviews INT default 0 */
+      var rating  = parseFloat(user.avg_rating  || 0).toFixed(1);
+      var reviews = parseInt(user.total_reviews  || 0);
+
+      var sidebarRating  = document.getElementById('sidebarRating');
+      var sidebarReviews = document.getElementById('sidebarReviews');
+      var navbarRating   = document.getElementById('navbarRating');
+
+      if (sidebarRating)  sidebarRating.textContent  = rating + '/5';
+      if (sidebarReviews) sidebarReviews.textContent  = '(' + reviews + ' reviews)';
+      if (navbarRating)   navbarRating.textContent    = rating;
+
+      /* Time-of-day greeting */
+      var hour = new Date().getHours();
+      var greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+      var heroSub = document.getElementById('heroSubtext');
+      if (heroSub) heroSub.textContent = greeting + '! Here is what\'s happening in the UIU community today.';
+
+      loadDashboard();
+    }
+  });
+
+
+  /* ── Mobile sidebar toggle ── */
+  var sidebar         = document.getElementById('sidebar');
+  var backdrop        = document.getElementById('sidebarBackdrop');
+  var hamburgerBtn    = document.getElementById('hamburgerBtn');
+  var sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
+
+  function openSidebar()  { sidebar.classList.add('open');  backdrop.classList.add('active'); }
+  function closeSidebar() { sidebar.classList.remove('open'); backdrop.classList.remove('active'); }
+
+  if (hamburgerBtn)    hamburgerBtn.addEventListener('click', openSidebar);
+  if (sidebarCloseBtn) sidebarCloseBtn.addEventListener('click', closeSidebar);
+  if (backdrop)        backdrop.addEventListener('click', closeSidebar);
+
+
+  /* ── Load all dashboard data from api_dashboard.php ── */
+  function loadDashboard() {
+    fetch('api_dashboard.php')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (!data.success) return;
+        var s = data.stats;
+
+        /* Stats cards */
+        document.getElementById('statLoans').textContent     = s.active_loans      || 0;
+        document.getElementById('statCampaigns').textContent = s.active_campaigns  || 0;
+        document.getElementById('statBids').textContent      = s.active_bids       || 0;
+        document.getElementById('statDonations').textContent = formatBDT(s.total_donations || 0);
+
+        /* Contextual notes */
+        var loansCount     = parseInt(s.active_loans || 0);
+        var campaignsCount = parseInt(s.active_campaigns || 0);
+        var bidsCount      = parseInt(s.active_bids || 0);
+
+        setNote('statLoansNote',
+          loansCount > 0 ? loansCount + ' open for bidding' : 'No open requests',
+          loansCount > 0 ? 'stat-note green-text' : 'stat-note gray-text');
+
+        setNote('statCampaignsNote',
+          campaignsCount > 0 ? campaignsCount + ' seeking donations' : 'No active campaigns',
+          campaignsCount > 0 ? 'stat-note green-text' : 'stat-note gray-text');
+
+        setNote('statBidsNote',
+          bidsCount > 0 ? 'Awaiting response' : 'No active bids',
+          bidsCount > 0 ? 'stat-note orange-text' : 'stat-note gray-text');
+
+        setNote('statDonationsNote', 'Total contributed', 'stat-note purple-text');
+
+        renderLoans(data.loans);
+        renderCampaigns(data.campaigns);
+      })
+      .catch(function(err) {
+        console.error('Dashboard load error:', err);
+        ['loanCardsContainer','campaignCardsContainer'].forEach(function(id) {
+          document.getElementById(id).innerHTML =
+            '<div class="empty-state">Could not load data. Please refresh.</div>';
+        });
+      });
+  }
+
+  function setNote(id, text, className) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = text;
+    el.className   = className;
+  }
+
+  function formatBDT(amount) {
+    return Number(amount).toLocaleString('en-BD') + ' BDT';
+  }
+
+
+  /* ── Render loan cards ──
+     Fields from loan_request table joined with user:
+       full_name, profile_photo, department, amount,
+       purpose, repayment_deadline, max_interest_rate
+  ── */
+  function renderLoans(loans) {
+    var c = document.getElementById('loanCardsContainer');
+    if (!loans || !loans.length) {
+      c.innerHTML = '<div class="empty-state">No open loan requests yet.<br><a href="marketplace.html">Go to Marketplace →</a></div>';
+      return;
+    }
+    c.innerHTML = loans.map(function(l) {
+      var initials = makeInitials(l.full_name);
+      var photoHTML = l.profile_photo
+        ? '<img src="' + escHtml(l.profile_photo) + '" alt="' + escHtml(l.full_name) + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">'
+        : '<span>' + initials + '</span>';
+      var deadline = l.repayment_deadline
+        ? new Date(l.repayment_deadline).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+        : 'Flexible';
+      var interest = parseFloat(l.max_interest_rate || 0).toFixed(1);
+      return [
+        '<div class="loan-card">',
+          '<div class="loan-card-top">',
+            '<div class="loan-user">',
+              '<div class="loan-avatar">', photoHTML, '</div>',
+              '<div>',
+                '<div class="loan-name">', escHtml(l.full_name), '</div>',
+                '<div class="loan-dept">', escHtml(l.department || 'UIU Student'), '</div>',
+              '</div>',
+            '</div>',
+            '<div class="loan-amount-badge">', Number(l.amount).toLocaleString(), ' <span>BDT</span></div>',
+          '</div>',
+          '<div class="loan-purpose">&ldquo;', escHtml(l.purpose), '&rdquo;</div>',
+          '<div class="loan-meta-row">',
+            '<div class="meta-item"><span class="meta-key">DEADLINE</span><span class="meta-val">', deadline, '</span></div>',
+            '<div class="meta-item"><span class="meta-key">MAX INTEREST</span><span class="meta-val interest-val">', interest, '%</span></div>',
+          '</div>',
+          '<a href="marketplace.html" class="card-action-btn">View &amp; Place Bid</a>',
+        '</div>'
+      ].join('');
+    }).join('');
+  }
+
+
+  /* ── Render campaign cards ──
+     Fields from campaign table:
+       title, category, description, target_amount, collected_amount
+  ── */
+  function renderCampaigns(camps) {
+    var c = document.getElementById('campaignCardsContainer');
+    if (!camps || !camps.length) {
+      c.innerHTML = '<div class="empty-state">No active campaigns yet.<br><a href="crowdfunding.html">Start one →</a></div>';
+      return;
+    }
+    c.innerHTML = camps.map(function(camp) {
+      var target    = parseFloat(camp.target_amount    || 0);
+      var collected = parseFloat(camp.collected_amount || 0);
+      var pct = target > 0 ? Math.min(100, Math.round(collected / target * 100)) : 0;
+      var barColor = pct >= 70 ? '#10b981' : '#3b82f6';
+      var desc = (camp.description || '').substring(0, 110);
+      if ((camp.description || '').length > 110) desc += '…';
+      return [
+        '<div class="campaign-card">',
+          '<div class="camp-header">',
+            '<h4>', escHtml(camp.title), '</h4>',
+            '<span class="camp-cat">', escHtml(camp.category || 'General'), '</span>',
+          '</div>',
+          '<p class="camp-desc">', escHtml(desc), '</p>',
+          '<div class="camp-progress-info">',
+            '<span>', Number(collected).toLocaleString(), ' / ', Number(target).toLocaleString(), ' BDT</span>',
+            '<span style="font-weight:700;color:', barColor, ';">', pct, '%</span>',
+          '</div>',
+          '<div class="progress-bar">',
+            '<div class="progress-fill" style="width:', Math.max(pct, pct > 0 ? 2 : 0), '%;background:', barColor, ';"></div>',
+          '</div>',
+          '<a href="crowdfunding.html" class="card-action-btn green-btn">Donate Now</a>',
+        '</div>'
+      ].join('');
+    }).join('');
+  }
+
+
+  /* ── Helpers ── */
+  function makeInitials(name) {
+    if (!name) return '?';
+    return name.trim().split(/\s+/).map(function(n) { return n[0]; }).join('').substring(0, 2).toUpperCase();
+  }
+
+  function escHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+
+  /* ── Hero action buttons ── */
+  document.getElementById('btnRequestLoan').addEventListener('click', function() {
+    document.getElementById('loanModal').style.display = 'flex';
+  });
+
+  document.getElementById('btnStartCampaign').addEventListener('click', function() {
+    window.location.href = 'crowdfunding.html';
+  });
+
+
+  /* ── Loan Request Modal ── */
+  function closeLoanModal() {
+    document.getElementById('loanModal').style.display = 'none';
+    document.getElementById('loanModalBanner').style.display = 'none';
+  }
+
+  document.getElementById('loanModalCloseBtn').addEventListener('click', closeLoanModal);
+  document.getElementById('lm_cancel').addEventListener('click', closeLoanModal);
+
+  /* Close on backdrop click */
+  document.getElementById('loanModal').addEventListener('click', function(e) {
+    if (e.target === this) closeLoanModal();
+  });
+
+  /* Close on Escape key */
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLoanModal();
+  });
+
+  document.getElementById('lm_submit').addEventListener('click', async function() {
+    var btn     = this;
+    var banner  = document.getElementById('loanModalBanner');
+    var amount  = document.getElementById('lm_amount').value.trim();
+    var purpose = document.getElementById('lm_purpose').value.trim();
+
+    function showB(msg, type) {
+      banner.textContent    = msg;
+      banner.className      = 'form-banner form-banner--' + type;
+      banner.style.display  = 'block';
+      banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    if (!amount || !purpose) {
+      showB('Amount and purpose are required.', 'error');
+      return;
+    }
+    if (parseFloat(amount) <= 0) {
+      showB('Amount must be greater than zero.', 'error');
+      return;
+    }
+
+    btn.disabled    = true;
+    btn.textContent = 'Submitting…';
+
+    /* Build FormData matching api_loans.php expected field names:
+       action, amount, purpose, reason_details, repayment_deadline, max_interest_rate */
+    var fd = new FormData();
+    fd.append('action',             'create');
+    fd.append('amount',             amount);
+    fd.append('purpose',            purpose);
+    fd.append('reason_details',     document.getElementById('lm_details').value.trim());
+    fd.append('repayment_deadline', document.getElementById('lm_deadline').value);
+    fd.append('max_interest_rate',  document.getElementById('lm_interest').value || '0');
+
+    try {
+      var r    = await fetch('api_loans.php', { method: 'POST', body: fd });
+      var text = await r.text();
+      var d;
+      try { d = JSON.parse(text); }
+      catch (parseErr) {
+        console.error('Non-JSON from api_loans.php:', text);
+        showB('Unexpected server response. Please try again.', 'error');
+        return;
+      }
+
+      if (d.success) {
+        showB('Loan request posted successfully!', 'success');
+        /* Reset form fields */
+        ['lm_amount','lm_purpose','lm_details','lm_deadline','lm_interest'].forEach(function(id) {
+          document.getElementById(id).value = '';
+        });
+        setTimeout(function() {
+          closeLoanModal();
+          loadDashboard();   /* refresh stats and cards */
+        }, 1400);
+      } else {
+        showB(d.message || 'Could not post loan request.', 'error');
+      }
+    } catch (netErr) {
+      console.error('Network error:', netErr);
+      showB('Network error. Please check your connection.', 'error');
+    } finally {
+      btn.disabled    = false;
+      btn.textContent = 'Submit Request';
+    }
+  });
+  </script>
+</body>
+</html>

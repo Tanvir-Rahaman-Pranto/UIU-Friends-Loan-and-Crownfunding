@@ -4,53 +4,75 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
-  /* ── Password toggle ── */
+  /* ── Element refs ── */
+  var form        = document.getElementById('loginForm');
+  var banner      = document.getElementById('loginBanner');
+  var signinBtn   = document.getElementById('signinBtn');
+  var btnText     = document.getElementById('signinBtnText');
+  var btnIcon     = document.getElementById('signinBtnIcon');
   var toggleBtn   = document.getElementById('togglePassword');
   var pwInput     = document.getElementById('password');
   var eyeOpen     = document.getElementById('eyeOpen');
   var eyeClosed   = document.getElementById('eyeClosed');
 
+
+  /* ── 1. Password show/hide toggle ── */
   if (toggleBtn) {
     toggleBtn.addEventListener('click', function () {
-      var show = pwInput.getAttribute('type') === 'password';
-      pwInput.setAttribute('type', show ? 'text' : 'password');
-      eyeOpen.style.display   = show ? 'none'  : 'block';
-      eyeClosed.style.display = show ? 'block' : 'none';
+      var isPassword = pwInput.type === 'password';
+      pwInput.type            = isPassword ? 'text' : 'password';
+      eyeOpen.style.display   = isPassword ? 'none'  : 'block';
+      eyeClosed.style.display = isPassword ? 'block' : 'none';
+      toggleBtn.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
     });
   }
 
-  /* ── Banner helper ── */
+
+  /* ── 2. Banner helper ──
+     Uses the #loginBanner div already in the HTML.
+     No dynamic element creation needed.
+  ── */
   function showBanner(msg, type) {
-    var banner = document.getElementById('loginBanner');
-    if (!banner) {
-      banner = document.createElement('div');
-      banner.id = 'loginBanner';
-      banner.style.cssText = 'margin:12px 0;padding:12px 16px;border-radius:8px;font-size:14px;font-weight:500;';
-      document.getElementById('loginForm').prepend(banner);
-    }
-    banner.textContent = msg;
-    banner.style.background = type === 'error' ? '#fee2e2' : '#d1fae5';
-    banner.style.color      = type === 'error' ? '#991b1b' : '#065f46';
-    banner.style.border     = '1px solid ' + (type === 'error' ? '#fca5a5' : '#6ee7b7');
-    banner.style.display    = 'block';
+    if (!banner) return;
+    banner.textContent   = msg;
+    banner.className     = 'login-banner login-banner--' + type;
+    banner.style.display = 'block';
+    banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
-  /* ── Form submit → login.php ── */
-  var form = document.getElementById('loginForm');
+  function hideBanner() {
+    if (!banner) return;
+    banner.style.display = 'none';
+  }
+
+
+  /* ── 3. Button loading state ──
+     Keeps the SVG arrow intact instead of
+     overwriting innerHTML with textContent.
+  ── */
+  function setLoading(isLoading) {
+    signinBtn.disabled  = isLoading;
+    btnText.textContent = isLoading ? 'Signing in…' : 'Sign In';
+    btnIcon.style.display = isLoading ? 'none' : 'block';
+  }
+
+
+  /* ── 4. Form submit → login.php ── */
   if (form) {
     form.addEventListener('submit', async function (e) {
       e.preventDefault();
-      var identifier = document.getElementById('studentId').value.trim();
-      var password   = document.getElementById('password').value;
-      var btn        = form.querySelector('.btn-signin');
+      hideBanner();
 
+      var identifier = document.getElementById('studentId').value.trim();
+      var password   = pwInput.value;
+
+      /* Basic client-side check */
       if (!identifier || !password) {
         showBanner('Please fill in both fields.', 'error');
         return;
       }
 
-      btn.disabled = true;
-      btn.textContent = 'Signing in…';
+      setLoading(true);
 
       try {
         var fd = new FormData();
@@ -58,25 +80,36 @@ document.addEventListener('DOMContentLoaded', function () {
         fd.append('password',   password);
 
         var res  = await fetch('login.php', { method: 'POST', body: fd });
-        var data = await res.json();
+
+        /* Safely parse JSON — PHP warnings can corrupt the response */
+        var text = await res.text();
+        var data;
+        try {
+          data = JSON.parse(text);
+        } catch (parseErr) {
+          console.error('Non-JSON response from login.php:', text);
+          showBanner('Unexpected server response. Please try again.', 'error');
+          return;
+        }
 
         if (data.success) {
           showBanner('Login successful! Redirecting…', 'success');
-          setTimeout(function () { window.location.href = 'deshboard.html'; }, 800);
+          /* Short delay so the user sees the success message */
+          setTimeout(function () {
+            window.location.href = 'deshboard.html';
+          }, 800);
+          /* Don't re-enable the button — page is about to redirect */
         } else {
-          showBanner(data.message || 'Login failed.', 'error');
-          btn.disabled = false;
-          btn.innerHTML = 'Sign In <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/></svg>';
+          showBanner(data.message || 'Login failed. Please try again.', 'error');
+          setLoading(false);
         }
-      } catch (err) {
+
+      } catch (netErr) {
+        console.error('Network error:', netErr);
         showBanner('Network error. Please check your connection.', 'error');
-        btn.disabled = false;
+        setLoading(false);
       }
     });
   }
-
-  /* ── Create account link ── */
-  var createLink = document.querySelector('.create-link');
-  if (createLink) createLink.href = 'registration.html';
 
 });

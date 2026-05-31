@@ -5,14 +5,14 @@
 
 
 // ── Element references ────────────────────────
-const uploadBtn       = document.getElementById('uploadBtn');
-const idUpload        = document.getElementById('idUpload');
-const fileNameDisplay = document.getElementById('fileName');
+const uploadBtn        = document.getElementById('uploadBtn');
+const idUpload         = document.getElementById('idUpload');
+const fileNameDisplay  = document.getElementById('fileName');
 const registrationForm = document.getElementById('registrationForm');
-const submitBtn       = document.getElementById('submitBtn');
-const submitBtnText   = document.getElementById('submitBtnText');
-const submitBtnIcon   = document.getElementById('submitBtnIcon');
-const formBanner      = document.getElementById('formBanner');
+const submitBtn        = document.getElementById('submitBtn');
+const submitBtnText    = document.getElementById('submitBtnText');
+const submitBtnIcon    = document.getElementById('submitBtnIcon');
+const formBanner       = document.getElementById('formBanner');
 
 
 // ── 1. File Upload ────────────────────────────
@@ -23,21 +23,17 @@ idUpload.addEventListener('change', function () {
     if (file) {
         fileNameDisplay.textContent = '✓ ' + file.name;
         fileNameDisplay.style.display = 'block';
+    } else {
+        fileNameDisplay.style.display = 'none';
     }
 });
 
 
 // ── 2. Banner helper ──────────────────────────
-/**
- * Show a success or error message above the submit button.
- * @param {string} message   - Text to display
- * @param {'success'|'error'} type
- */
 function showBanner(message, type) {
-    formBanner.textContent = message;
-    formBanner.className   = 'form-banner form-banner--' + type;
+    formBanner.textContent  = message;
+    formBanner.className    = 'form-banner form-banner--' + type;
     formBanner.style.display = 'block';
-    // Scroll the banner into view smoothly
     formBanner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
@@ -60,25 +56,22 @@ function setLoading(isLoading) {
 
 
 // ── 4. Client-side validation ─────────────────
-/**
- * Returns an error string if invalid, or null if all good.
- */
 function validate(fullName, studentId, emailUser, password, confirm) {
-    if (!fullName || !studentId || !emailUser || !password || !confirm) {
+    if (!fullName || !studentId || !emailUser || !password || !confirm)
         return 'Please fill in all required fields.';
-    }
-    if (!/^\d{10}$/.test(studentId)) {
+
+    if (!/^\d{10}$/.test(studentId))
         return 'Student ID must be exactly 10 digits (e.g. 0112010000).';
-    }
-    if (!/^[a-zA-Z]+\d+$/.test(emailUser)) {
+
+    if (!/^[a-zA-Z]+\d+$/.test(emailUser))
         return 'Email must match UIU format: letters followed by digits (e.g. tpranto2331028).';
-    }
-    if (password.length < 8) {
+
+    if (password.length < 8)
         return 'Password must be at least 8 characters long.';
-    }
-    if (password !== confirm) {
+
+    if (password !== confirm)
         return 'Passwords do not match. Please try again.';
-    }
+
     return null; // all good
 }
 
@@ -96,7 +89,7 @@ registrationForm.addEventListener('submit', async function (event) {
     const confirmPassword = document.getElementById('confirmPassword').value;
     const phone           = document.getElementById('phone').value.trim();
     const department      = document.getElementById('department').value;
-    const idFile          = idUpload.files[0];
+    const idFile          = idUpload.files[0]; // may be undefined — that's fine
 
     // Client-side validation
     const validationError = validate(fullName, studentId, emailUser, password, confirmPassword);
@@ -105,16 +98,20 @@ registrationForm.addEventListener('submit', async function (event) {
         return;
     }
 
-    // Build FormData — supports both text fields AND the file upload
+    // Build FormData — supports both text fields AND the optional file upload
     const formData = new FormData();
-    formData.append('fullName',         fullName);
-    formData.append('studentId',        studentId);
-    formData.append('emailUser',        emailUser);
-    formData.append('password',         password);
-    formData.append('confirmPassword',  confirmPassword);
-    formData.append('phone',            phone);
-    formData.append('department',       department);
-    formData.append('idUpload',         idFile, idFile.name);
+    formData.append('fullName',        fullName);
+    formData.append('studentId',       studentId);
+    formData.append('emailUser',       emailUser);
+    formData.append('password',        password);
+    formData.append('confirmPassword', confirmPassword);
+    formData.append('phone',           phone);
+    formData.append('department',      department);
+
+    // Only append the file if the user actually chose one
+    if (idFile) {
+        formData.append('idUpload', idFile, idFile.name);
+    }
 
     setLoading(true);
 
@@ -122,17 +119,26 @@ registrationForm.addEventListener('submit', async function (event) {
         const response = await fetch('register.php', {
             method: 'POST',
             body: formData,
-            // Do NOT set Content-Type manually — fetch sets it automatically
-            // with the correct multipart boundary when using FormData.
+            // Do NOT set Content-Type manually — fetch sets it with the
+            // correct multipart boundary when using FormData.
         });
 
-        const data = await response.json();
+        // Handle non-JSON responses gracefully
+        const text = await response.text();
+        let data;
+        try {
+            data = JSON.parse(text);
+        } catch {
+            console.error('Non-JSON response:', text);
+            showBanner('Unexpected server response. Please try again.', 'error');
+            return;
+        }
 
         if (data.success) {
             showBanner(data.message, 'success');
-            setTimeout(function(){ window.location.href = 'login.html'; }, 1800);
             registrationForm.reset();
             fileNameDisplay.style.display = 'none';
+            setTimeout(() => { window.location.href = 'login.html'; }, 1800);
         } else {
             showBanner(data.message || 'Something went wrong. Please try again.', 'error');
         }

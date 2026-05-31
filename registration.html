@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | UIU Friends Network</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap">
+    <link rel="stylesheet" href="registrationstyle.css">
+</head>
+<body>
+
+    <div class="layout-container">
+
+        <!-- ===== LEFT PANEL ===== -->
+        <section class="hero-section">
+            <div class="hero-bg-pattern">
+                <svg preserveAspectRatio="none" viewBox="0 0 100 100">
+                    <defs>
+                        <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+                            <path d="M 10 0 L 0 0 0 10" fill="none" stroke="currentColor" stroke-width="0.5"></path>
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#grid)"></rect>
+                </svg>
+            </div>
+
+            <div class="hero-content brand-header">
+                <div class="brand-icon-wrapper">
+                    <span class="material-symbols-outlined">account_balance_wallet</span>
+                </div>
+                <h1 class="brand-title">UIU Friends Network</h1>
+            </div>
+
+            <div class="hero-content">
+                <h2 class="hero-main-title">Join the most trusted student financial network.</h2>
+                <p class="hero-description">
+                    Empowering United International University students through secure peer-to-peer lending and collaborative crowdfunding.
+                </p>
+            </div>
+
+            <div class="hero-content features-list">
+                <div class="feature-item">
+                    <span class="material-symbols-outlined feature-icon">verified_user</span>
+                    <div class="feature-text">
+                        <h4>Bank-Grade Security</h4>
+                        <p>Your identity is encrypted and only visible to verified administrators.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <span class="material-symbols-outlined feature-icon">groups</span>
+                    <div class="feature-text">
+                        <h4>Student Verified</h4>
+                        <p>Exclusively for UIU students. No external access allowed.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== RIGHT PANEL: Registration Form ===== -->
+        <section class="form-section">
+            <div class="form-container">
+
+                <div class="form-header">
+                    <h3 class="form-title">Create your UIU Account</h3>
+                    <p class="form-subtitle">Only verified UIU students can access the network. Your identity is kept secure.</p>
+                </div>
+
+                <div class="progress-section">
+                    <div class="progress-info">
+                        <span class="progress-step">Step 1 of 2: Basic Info</span>
+                        <span class="progress-percentage">50% Complete</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill"></div>
+                    </div>
+                </div>
+
+                <!-- Success / Error banner (hidden by default) -->
+                <div id="formBanner" class="form-banner" style="display:none;"></div>
+
+                <form class="registration-form" id="registrationForm" novalidate>
+
+                    <!-- Full Name -->
+                    <div class="input-group">
+                        <label class="input-label" for="fullName">Full Legal Name <span class="required-star">*</span></label>
+                        <input type="text" id="fullName" name="fullName" class="form-input" placeholder="John Doe" required>
+                    </div>
+
+                    <!-- Student ID and Email -->
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label class="input-label" for="studentId">UIU Student ID <span class="required-star">*</span></label>
+                            <input type="text" id="studentId" name="studentId" class="form-input" placeholder="e.g., 0112010000" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label class="input-label" for="emailUser">Official Email <span class="required-star">*</span></label>
+                            <div class="email-input-wrapper">
+                                <input type="text" id="emailUser" name="emailUser" class="email-input" placeholder="username" required>
+                                <span class="email-suffix">@bscse.uiu.ac.bd</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phone and Department (new fields matching DB schema) -->
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label class="input-label" for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" class="form-input" placeholder="e.g., 01XXXXXXXXX">
+                        </div>
+
+                        <div class="input-group">
+                            <label class="input-label" for="department">Department</label>
+                            <select id="department" name="department" class="form-input form-select">
+                                <option value="" disabled selected>Select department</option>
+                                <option value="CSE">CSE</option>
+                                <option value="EEE">EEE</option>
+                                <option value="BBA">BBA</option>
+                                <option value="MBA">MBA</option>
+                                <option value="Civil Engineering">Civil Engineering</option>
+                                <option value="English">English</option>
+                                <option value="Pharmacy">Pharmacy</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Password and Confirm Password -->
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label class="input-label" for="password">Password <span class="required-star">*</span></label>
+                            <input type="password" id="password" name="password" class="form-input" placeholder="••••••••" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label class="input-label" for="confirmPassword">Confirm Password <span class="required-star">*</span></label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" class="form-input" placeholder="••••••••" required>
+                        </div>
+                    </div>
+
+                    <!-- ID Card Upload -->
+                    <div class="upload-section">
+                        <div class="upload-icon-container">
+                            <span class="material-symbols-outlined">badge</span>
+                        </div>
+                        <h4 class="upload-title">Identity Verification <span style="font-weight:400;color:#888;">(Optional — for future verification)</span></h4>
+                        <p class="upload-description">
+                            You can optionally upload your UIU Student ID card. Automated verification will be added in a future update.
+                        </p>
+
+                        <button type="button" class="upload-button" id="uploadBtn">
+                            <span class="material-symbols-outlined">upload</span>
+                            Upload ID Image
+                        </button>
+
+                        <input type="file" id="idUpload" name="idUpload" accept="image/*" style="display: none;">
+                        <span id="fileName" style="margin-top: 0.5rem; font-size: 0.875rem; color: var(--uiu-blue); font-weight: 600; display: none;"></span>
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="actions-section">
+                        <button type="submit" class="submit-button" id="submitBtn">
+                            <span id="submitBtnText">Submit for Verification</span>
+                            <span class="material-symbols-outlined" id="submitBtnIcon">arrow_forward</span>
+                        </button>
+
+                        <div class="auth-links">
+                            <p>Already have an account? <a href="#">Sign In here.</a></p>
+                        </div>
+                    </div>
+
+                </form>
+
+                <footer class="form-footer">
+                    <p>© 2024 UIU Friends Network</p>
+                    <div class="footer-links">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                    </div>
+                </footer>
+
+            </div>
+        </section>
+
+    </div>
+
+    <script src="registrationscript.js"></script>
+</body>
+</html>

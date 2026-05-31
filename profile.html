@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trust Score & Profile - UIU Friends Loan</title>
+    
+    <!-- Link to external stylesheet -->
+    <link rel="stylesheet" href="profilestyle.css">
+</head>
+<body>
+    <div class="app-container">
+        
+        <!-- Top Navbar -->
+        <header class="top-nav">
+            <div class="nav-brand-group">
+                <div class="brand-logo">
+                    <span class="material-symbols-outlined fill-1" style="font-size: 1.875rem;">handshake</span>
+                    <h2>UIU Friends Loan</h2>
+                </div>
+                <nav class="nav-links">
+                    <a href="deshboard.html">Dashboard</a>
+                    <a href="marketplace.html">Loans</a>
+                    <a href="crowdfunding.html">Crowdfunding</a>
+                    <a href="#">Community</a>
+                </nav>
+            </div>
+            
+            <div class="nav-actions">
+                <div class="search-box">
+                    <div class="search-icon">
+                        <span class="material-symbols-outlined">search</span>
+                    </div>
+                    <input type="text" class="search-input" placeholder="Search loans or users">
+                </div>
+                
+                <div class="icon-buttons">
+                    <button class="icon-btn">
+                        <span class="material-symbols-outlined">notifications</span>
+                    </button>
+                    <button class="icon-btn">
+                        <span class="material-symbols-outlined">settings</span>
+                    </button>
+                </div>
+                
+                <div class="user-avatar" data-prof="avatar" style="display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;background:#1E3A8A;"></div>
+            </div>
+        </header>
+
+        <div class="body-wrapper">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-user">
+                    <h1 data-prof="name"> <span id="verifiedBadge" style="display:none;background:#10b981;color:#fff;font-size:10px;padding:2px 8px;border-radius:20px;font-weight:600;vertical-align:middle;">✓ Verified</span>Loading…</h1>
+                    <p data-prof="id-dept">--</p>
+                </div>
+                
+                <nav class="sidebar-nav">
+                    <a class="sidebar-item" href="#">
+                        <span class="material-symbols-outlined">home</span>
+                        <p>Home</p>
+                    </a>
+                    <a class="sidebar-item" href="#">
+                        <span class="material-symbols-outlined">account_balance_wallet</span>
+                        <p>My Wallet</p>
+                    </a>
+                    <a class="sidebar-item" href="#">
+                        <span class="material-symbols-outlined">handshake</span>
+                        <p>Active Loans</p>
+                    </a>
+                    <a class="sidebar-item" href="#">
+                        <span class="material-symbols-outlined">groups</span>
+                        <p>Crowdfunding</p>
+                    </a>
+                    <a class="sidebar-item active" href="#">
+                        <span class="material-symbols-outlined fill-1">shield_with_heart</span>
+                        <p>Reviews & Trust Score</p>
+                    </a>
+                    <a class="sidebar-item" href="#">
+                        <span class="material-symbols-outlined">settings</span>
+                        <p>Settings</p>
+                    </a>
+                </nav>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main class="main-content">
+                
+                <!-- Identity Header -->
+                <div class="identity-header">
+                    <div class="identity-info-group">
+                        <div class="profile-pic-container">
+                            <div class="profile-pic" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCmeM5thcxcdPARFx_md-7tEozR2JTPZCZ5ZmO3aPXfSP94jsuS20HbQKRjwM_GA8fXOkiKjg295VUU1Ah8iy20h0NNbC19WuMNkSAvtNmHbBFWWsa01TMIqNuE4YODq5jXYkHwc8kvN83LS0kclEUr6-m9eBXwQgt2xn8qFe16W-zJEU_dAJtnDPJmSZ6dAGiDuI8OUPwZLhXkuWxEObiEfm9roTEbgBP3qEPYdTIPUrGDvQh0OuQ1VTm5y_prrt2OGcBexAD4dgIl');"></div>
+                            <div class="verified-badge">
+                                <span class="material-symbols-outlined">verified</span>
+                            </div>
+                        </div>
+                        
+                        <div class="user-details">
+                            <h3><span data-prof="name">Loading…</span></h3>
+                            <p class="dept">Dept. of Computer Science & Engineering</p>
+                            <p class="student-id">Student ID: 011191000</p>
+                            
+                            <div class="badges">
+                                <span class="badge verified-identity">
+                                    <span class="material-symbols-outlined" style="font-size: 0.875rem;">verified_user</span> Identity Verified
+                                </span>
+                                <span class="badge verified-phone">
+                                    <span class="material-symbols-outlined" style="font-size: 0.875rem;">smartphone</span> Phone Verified
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="trust-score-container">
+                        <div class="gauge-wrapper">
+                            <svg class="gauge-svg" viewBox="0 0 100 60">
+                                <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#334155" stroke-linecap="round" stroke-width="10"></path>
+                                <path d="M 10 50 A 40 40 0 0 1 88 45" fill="none" stroke="#10b981" stroke-dasharray="125" stroke-dashoffset="0" stroke-linecap="round" stroke-width="10"></path>
+                            </svg>
+                            <div class="gauge-text">
+                                <span class="gauge-percentage">98%</span>
+                                <span class="gauge-label">Excellent</span>
+                            </div>
+                        </div>
+                        <p class="trust-score-label">Overall Trust Score</p>
+                    </div>
+                </div>
+
+                <!-- Middle Section Tabs -->
+                <div class="tabs-container">
+                    <nav class="tabs-nav">
+                        <a href="#" class="tab-link active">Overview & Reviews</a>
+                        <a href="#" class="tab-link">
+                            Verification Center <span class="notification-dot"></span>
+                        </a>
+                        <a href="#" class="tab-link">Payment Methods</a>
+                    </nav>
+                </div>
+
+                <!-- Bottom Grid Area -->
+                <div class="bottom-grid">
+                    
+                    <!-- Left Column: Payment Methods -->
+                    <div class="section-column">
+                        <div class="section-header">
+                            <h4>Linked Accounts</h4>
+                            <span>2/5 Active</span>
+                        </div>
+                        
+                        <!-- bKash Card -->
+                        <div class="payment-card bkash">
+                            <div class="card-content">
+                                <div class="card-details">
+                                    <span class="card-type">Mobile Banking</span>
+                                    <p class="card-number">017****5422</p>
+                                    <div class="card-footer">
+                                        <span class="card-name">bKash Personal</span>
+                                        <span class="card-status"></span>
+                                    </div>
+                                </div>
+                                <div class="card-logo text">bKash</div>
+                            </div>
+                        </div>
+
+                        <!-- City Bank Card -->
+                        <div class="payment-card citybank">
+                            <div class="card-content">
+                                <div class="card-details">
+                                    <span class="card-type">Savings Account</span>
+                                    <p class="card-number">**** **** 8842</p>
+                                    <div class="card-footer">
+                                        <span class="card-name">The City Bank Ltd.</span>
+                                        <span class="card-status"></span>
+                                    </div>
+                                </div>
+                                <div class="card-logo">
+                                    <span class="material-symbols-outlined text-white">account_balance</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Add New Button -->
+                        <button class="add-card-btn">
+                            <span class="material-symbols-outlined">add_circle</span>
+                            <span class="font-bold">Add New Payment Method</span>
+                        </button>
+                    </div>
+
+                    <!-- Right Column: Community Feedback -->
+                    <div class="section-column">
+                        
+                        <!-- Rate Interaction Box -->
+                        <div id="reviewsList">
+                            <h4 class="review-box-title">Rate Recent Interaction</h4>
+                            <form class="review-form" id="reviewForm">
+                                <div class="review-top-row">
+                                    <select class="form-select">
+                                        <option>Select User (Recent Loans)</option>
+                                        <option>Karim Ullah (Borrower)</option>
+                                        <option>Admin (System Review)</option>
+                                        <option>Saiful Islam (Lender)</option>
+                                    </select>
+                                    <div class="star-rating" id="starRating">
+                                        <span class="material-symbols-outlined" data-rating="1">star</span>
+                                        <span class="material-symbols-outlined" data-rating="2">star</span>
+                                        <span class="material-symbols-outlined" data-rating="3">star</span>
+                                        <span class="material-symbols-outlined" data-rating="4">star</span>
+                                        <span class="material-symbols-outlined" data-rating="5">star</span>
+                                    </div>
+                                </div>
+                                <textarea class="form-textarea" placeholder="Write a short review..." rows="2"></textarea>
+                                <button type="submit" class="submit-review-btn">Submit Review</button>
+                            </form>
+                        </div>
+
+                        <!-- Review History Feed -->
+                        <div class="review-feed">
+                            <h4 class="feed-title">Recent Testimonials</h4>
+                            
+                            <!-- Review Card 1 -->
+                            <div class="review-card">
+                                <div class="review-content-wrapper">
+                                    <div class="reviewer-avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCz2SySyfXFuXu3hKZ-AWX_QIOzw7aDBpRLyAwYUayzL496RC8oubXPc3YQNAcXZ0kYbtdTDwc4UJPAVXz6VmQNWQf55csZjHI4RVWsrWOAUr2cB4hBcy2QxsmyV7psPRGwsLHm51J_qLFymz6a1uITuh4hTrTVAxue_QKVeeQXLzijPQQOv760a0ffkHS4DzHEyJXJ-lNR_HDugR8P3m1bd6DzKk9Qnwnv0Fe59Jr-549LK3AgyetkdgS3B7onXpxp1_y649Ge9AlQ');"></div>
+                                    <div class="review-details">
+                                        <div class="review-header">
+                                            <p class="reviewer-name">Karim Ullah</p>
+                                            <div class="review-stars">
+                                                <span class="material-symbols-outlined fill-1">star</span>
+                                                <span class="material-symbols-outlined fill-1">star</span>
+                                                <span class="material-symbols-outlined fill-1">star</span>
+                                                <span class="material-symbols-outlined fill-1">star</span>
+                                                <span class="material-symbols-outlined fill-1">star</span>
+                                            </div>
+                                        </div>
+                                        <p class="review-meta">2 days ago • Loan Borrower</p>
+                                        <p class="review-text italic">"Rahim is very cooperative. He responded quickly and the transaction was seamless. Highly recommended for any future lending."</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Review Card 2 -->
+                            <div class="review-card system">
+                                <div class="review-content-wrapper">
+                                    <div class="reviewer-avatar icon">
+                                        <span class="material-symbols-outlined">verified</span>
+                                    </div>
+                                    <div class="review-details">
+                                        <div class="review-header">
+                                            <p class="reviewer-name">System Admin</p>
+                                            <span class="system-badge">Official</span>
+                                        </div>
+                                        <p class="review-meta">1 month ago • Automated Audit</p>
+                                        <p class="review-text">"Perfect repayment history maintained over 12 months. All identity documents are up-to-date. Trust score boosted by +15 pts."</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                </div>
+                
+            
+    <div id="profileStatsRow" style="display:flex;gap:16px;flex-wrap:wrap;margin:20px 0;">
+      <div style="background:#fff;border-radius:12px;padding:16px 24px;box-shadow:0 2px 8px rgba(0,0,0,.06);flex:1;min-width:140px;">
+        <div style="font-size:12px;color:#888;margin-bottom:4px;">Active Loans</div>
+        <div id="statActiveLoans" style="font-size:28px;font-weight:800;color:#1E3A8A;">--</div>
+      </div>
+      <div style="background:#fff;border-radius:12px;padding:16px 24px;box-shadow:0 2px 8px rgba(0,0,0,.06);flex:1;min-width:140px;">
+        <div style="font-size:12px;color:#888;margin-bottom:4px;">Active Campaigns</div>
+        <div id="statActiveCampaigns" style="font-size:28px;font-weight:800;color:#10b981;">--</div>
+      </div>
+      <div style="background:#fff;border-radius:12px;padding:16px 24px;box-shadow:0 2px 8px rgba(0,0,0,.06);flex:1;min-width:140px;">
+        <div style="font-size:12px;color:#888;margin-bottom:4px;">Total Donated</div>
+        <div id="statTotalDonated" style="font-size:28px;font-weight:800;color:#f59e0b;">--</div>
+      </div>
+    </div>
+    <div style="background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:20px;">
+      <h3 style="margin:0 0 16px;font-size:16px;font-weight:700;">Reviews from the Community</h3>
+      <div id="reviewsList"><p style="color:#888;text-align:center;padding:20px;">Loading…</p></div>
+    </div>
+    <div style="background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.06);">
+      <h3 style="margin:0 0 16px;font-size:16px;font-weight:700;">My Agreements</h3>
+      <div id="agreementsList"><p style="color:#888;text-align:center;padding:20px;">Loading…</p></div>
+    </div>
+    
+</main>
+        </div>
+    </div>
+
+    <!-- Link to external script -->
+    <script src="auth.js"></script>
+    <script src="profilescript.js"></script>
+</body>
+</html>

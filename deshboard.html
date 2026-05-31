@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UIU Friends - Dashboard</title>
+  <link rel="stylesheet" href="deshboardstyle.css" />
+</head>
+<body>
+
+  <div class="wrapper">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="logo">
+        <div class="logo-icon">UF</div>
+        <div>
+          <div class="logo-name">UIU Friends</div>
+          <div class="logo-sub">Loan & Crowdfunding</div>
+        </div>
+      </div>
+
+      <div class="nav-section">LOAN SYSTEM</div>
+      <a href="deshboard.html" class="nav-link active">Dashboard</a>
+      <a href="marketplace.html" class="nav-link">Loan Marketplace</a>
+
+      <div class="nav-section">DONATION SYSTEM</div>
+      <a href="crowdfunding.html" class="nav-link">Crowdfunding Hub</a>
+
+      <div class="nav-section">USER ACCOUNT</div>
+      <a href="agreement.html" class="nav-link">My Agreements</a>
+      <a href="profile.html" class="nav-link">Reviews & Trust Score</a>
+
+      <div class="sidebar-footer">
+        <a href="#" class="nav-link">Help &amp; Support</a>
+        <a href="logout.php" class="nav-link logout">Logout</a>
+      </div>
+    </div>
+
+    <!-- Main Area -->
+    <div class="main-area">
+
+      <!-- Header -->
+      <div class="header">
+        <input type="text" class="search-box" placeholder="Search loans, campaigns, or students..." />
+        <div class="header-right">
+          <div class="notif-btn" id="notifBtn">&#128276;</div>
+          <div class="user-info">
+            <div>
+              <div class="user-name" data-auth="user-name">Guest User</div>
+              <div class="trust-score" data-auth="trust-score">--</div>
+            </div>
+            <a href="profile.html" class="avatar" data-auth="avatar" data-size="40"></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Page Content -->
+      <div class="content">
+
+        <!-- Hero Banner -->
+        <div class="hero">
+          <div class="hero-text">
+            <h2 data-auth="welcome">Welcome to UIU Friends!</h2>
+            <p id="heroSubtext">Here is what's happening in the UIU community today.</p>
+          </div>
+          <div class="hero-buttons">
+            <button class="btn btn-white" id="btnRequestLoan">Request a Loan</button>
+            <button class="btn btn-green" id="btnStartCampaign">Start a Campaign</button>
+          </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-label">Active Loan Requests</div>
+            <div class="stat-number" id="statLoans">--</div>
+            <div class="stat-note green-text" id="statLoansNote">Loading…</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Crowdfunding Campaigns</div>
+            <div class="stat-number" id="statCampaigns">--</div>
+            <div class="stat-note green-text" id="statCampaignsNote">Loading…</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Your Active Bids</div>
+            <div class="stat-number" id="statBids">--</div>
+            <div class="stat-note gray-text" id="statBidsNote">Loading…</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Your Total Donations</div>
+            <div class="stat-number" id="statDonations">-- <small>BDT</small></div>
+            <div class="stat-note gray-text" id="statDonationsNote">Loading…</div>
+          </div>
+        </div>
+
+        <!-- Two Columns -->
+        <div class="two-col">
+          <!-- Loan Requests -->
+          <div class="panel">
+            <div class="panel-header">
+              <h3>Urgent Loan Requests</h3>
+              <a href="marketplace.html">View All</a>
+            </div>
+            <div id="loanCardsContainer">
+              <div class="loan-card" style="text-align:center;color:#888;">Loading…</div>
+            </div>
+          </div>
+
+          <!-- Donation Campaigns -->
+          <div class="panel">
+            <div class="panel-header">
+              <h3>Trending Donation Campaigns</h3>
+              <a href="crowdfunding.html">Explore More</a>
+            </div>
+            <div id="campaignCardsContainer">
+              <div class="campaign-card" style="text-align:center;color:#888;">Loading…</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Loan Request Modal -->
+  <div id="loanModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;overflow-y:auto;">
+    <div style="background:#fff;max-width:500px;margin:60px auto;border-radius:16px;padding:32px;">
+      <h3 style="margin:0 0 20px;font-size:20px;">Post a Loan Request</h3>
+      <div id="loanModalBanner" style="display:none;padding:10px 14px;border-radius:8px;margin-bottom:16px;font-size:14px;"></div>
+      <label style="display:block;margin-bottom:6px;font-size:13px;font-weight:600;">Amount (BDT) *</label>
+      <input id="lm_amount" type="number" min="1" placeholder="e.g. 5000" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;margin-bottom:14px;box-sizing:border-box;font-size:14px;">
+      <label style="display:block;margin-bottom:6px;font-size:13px;font-weight:600;">Purpose *</label>
+      <input id="lm_purpose" type="text" placeholder="e.g. Semester tuition" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;margin-bottom:14px;box-sizing:border-box;font-size:14px;">
+      <label style="display:block;margin-bottom:6px;font-size:13px;font-weight:600;">Details</label>
+      <textarea id="lm_details" rows="3" placeholder="Explain your situation…" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;margin-bottom:14px;box-sizing:border-box;font-size:14px;resize:vertical;"></textarea>
+      <label style="display:block;margin-bottom:6px;font-size:13px;font-weight:600;">Repayment Deadline</label>
+      <input id="lm_deadline" type="date" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;margin-bottom:14px;box-sizing:border-box;font-size:14px;">
+      <label style="display:block;margin-bottom:6px;font-size:13px;font-weight:600;">Max Interest Rate (%)</label>
+      <input id="lm_interest" type="number" min="0" step="0.1" placeholder="e.g. 5" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;margin-bottom:20px;box-sizing:border-box;font-size:14px;">
+      <div style="display:flex;gap:10px;">
+        <button id="lm_submit" style="flex:1;padding:12px;background:#1E3A8A;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:15px;">Submit Request</button>
+        <button onclick="document.getElementById('loanModal').style.display='none'" style="flex:1;padding:12px;background:#f1f5f9;border:1px solid #ddd;border-radius:8px;font-weight:600;cursor:pointer;font-size:15px;">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="auth.js"></script>
+  <script>
+  Auth.init({ requireLogin: true, onReady: function(user) {
+    loadDashboard();
+  }});
+
+  function loadDashboard() {
+    fetch('api_dashboard.php')
+      .then(r => r.json())
+      .then(data => {
+        if (!data.success) return;
+        var s = data.stats;
+        document.getElementById('statLoans').textContent     = s.active_loans;
+        document.getElementById('statCampaigns').textContent = s.active_campaigns;
+        document.getElementById('statBids').textContent      = s.active_bids;
+        document.getElementById('statDonations').innerHTML   = Number(s.total_donations).toLocaleString() + ' <small>BDT</small>';
+        document.getElementById('statBidsNote').textContent      = s.active_bids > 0 ? 'Awaiting borrower response' : 'No active bids';
+        document.getElementById('statDonationsNote').textContent = 'Total contributed';
+        renderLoans(data.loans);
+        renderCampaigns(data.campaigns);
+      })
+      .catch(() => {});
+  }
+
+  function renderLoans(loans) {
+    var c = document.getElementById('loanCardsContainer');
+    if (!loans.length) { c.innerHTML = '<div class="loan-card" style="text-align:center;color:#888;">No open loan requests yet.</div>'; return; }
+    c.innerHTML = loans.map(function(l) {
+      var initials = l.full_name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
+      var photo = l.profile_photo
+        ? '<img src="'+l.profile_photo+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">'
+        : '<span style="font-weight:700;color:#fff;">'+initials+'</span>';
+      var deadline = l.repayment_deadline ? new Date(l.repayment_deadline).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) : 'Not set';
+      return '<div class="loan-card">\
+        <div class="loan-top">\
+          <div class="loan-user">\
+            <div class="loan-avatar dark-avatar" style="display:flex;align-items:center;justify-content:center;overflow:hidden;">'+photo+'</div>\
+            <div>\
+              <div class="loan-name">'+l.full_name+'</div>\
+              <div class="loan-quote">"'+l.purpose+'"</div>\
+            </div>\
+          </div>\
+          <div class="loan-amount">\
+            <div class="amount-value">'+Number(l.amount).toLocaleString()+'</div>\
+            <div class="amount-bdt">BDT</div>\
+          </div>\
+        </div>\
+        <div class="loan-meta">\
+          <div><div class="meta-label">REPAYMENT DEADLINE</div><div class="meta-value">'+deadline+'</div></div>\
+          <div><div class="meta-label">MAX INTEREST</div><div class="meta-value green-text">'+(l.max_interest_rate||0)+'%</div></div>\
+        </div>\
+        <a href="marketplace.html" class="btn btn-dark full-btn" style="display:block;text-align:center;text-decoration:none;padding:10px;">View &amp; Bid</a>\
+      </div>';
+    }).join('');
+  }
+
+  function renderCampaigns(camps) {
+    var c = document.getElementById('campaignCardsContainer');
+    if (!camps.length) { c.innerHTML = '<div class="campaign-card" style="text-align:center;color:#888;">No active campaigns yet.</div>'; return; }
+    c.innerHTML = camps.map(function(camp) {
+      var pct = camp.target_amount > 0 ? Math.min(100, Math.round(camp.collected_amount / camp.target_amount * 100)) : 0;
+      return '<div class="campaign-card">\
+        <h4>'+camp.title+'</h4>\
+        <p>'+camp.description.substring(0,120)+(camp.description.length>120?'…':'')+'</p>\
+        <div class="progress-info">\
+          <span>Progress: '+Number(camp.collected_amount).toLocaleString()+' / '+Number(camp.target_amount).toLocaleString()+' BDT</span>\
+          <span class="blue-text">'+pct+'%</span>\
+        </div>\
+        <div class="progress-bar"><div class="progress-fill" style="width:'+pct+'%;"></div></div>\
+        <a href="crowdfunding.html" class="btn btn-green full-btn" style="display:block;text-align:center;text-decoration:none;padding:10px;margin-top:10px;">Donate Now</a>\
+      </div>';
+    }).join('');
+  }
+
+  /* Loan request modal */
+  document.getElementById('btnRequestLoan').addEventListener('click', function() {
+    document.getElementById('loanModal').style.display = 'block';
+  });
+  document.getElementById('btnStartCampaign').addEventListener('click', function() {
+    window.location.href = 'crowdfunding.html';
+  });
+  document.getElementById('lm_submit').addEventListener('click', async function() {
+    var btn    = this;
+    var amount  = document.getElementById('lm_amount').value;
+    var purpose = document.getElementById('lm_purpose').value.trim();
+    var banner  = document.getElementById('loanModalBanner');
+
+    function showM(msg, type) {
+      banner.textContent = msg;
+      banner.style.background = type==='error'?'#fee2e2':'#d1fae5';
+      banner.style.color      = type==='error'?'#991b1b':'#065f46';
+      banner.style.display    = 'block';
+    }
+    if (!amount || !purpose) { showM('Amount and purpose are required.','error'); return; }
+
+    btn.disabled = true; btn.textContent = 'Submitting…';
+    var fd = new FormData();
+    fd.append('action','create'); fd.append('amount',amount); fd.append('purpose',purpose);
+    fd.append('reason_details', document.getElementById('lm_details').value);
+    fd.append('repayment_deadline', document.getElementById('lm_deadline').value);
+    fd.append('max_interest_rate', document.getElementById('lm_interest').value);
+
+    try {
+      var r = await fetch('api_loans.php',{method:'POST',body:fd});
+      var d = await r.json();
+      if (d.success) {
+        showM('Loan request posted!','success');
+        setTimeout(function(){ document.getElementById('loanModal').style.display='none'; loadDashboard(); },1200);
+      } else { showM(d.message,'error'); }
+    } catch(e) { showM('Network error.','error'); }
+    btn.disabled=false; btn.textContent='Submit Request';
+  });
+  </script>
+</body>
+</html>

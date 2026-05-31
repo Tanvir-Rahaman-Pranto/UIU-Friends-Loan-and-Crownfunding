@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UIU Friends - Loan Marketplace</title>
+    <link rel="stylesheet" href="marketplacestyle.css">
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <span class="material-symbols-outlined">handshake</span>
+            </div>
+            <div class="sidebar-title">
+                <h1>UIU Friends</h1>
+                <p>Loan & Crowdfunding</p>
+            </div>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="deshboard.html" class="nav-link">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span class="text">Dashboard</span>
+            </a>
+            <a href="marketplace.html" class="nav-link active">
+                <span class="material-symbols-outlined">storefront</span>
+                <span class="text">Loan Marketplace</span>
+            </a>
+            <a href="crowdfunding.html" class="nav-link">
+                <span class="material-symbols-outlined">payments</span>
+                <span class="text">Crowdfunding</span>
+            </a>
+            <a href="myloans.html" class="nav-link">
+                <span class="material-symbols-outlined">receipt_long</span>
+                <span class="text">My Loans</span>
+            </a>
+            <a href="settings.html" class="nav-link">
+                <span class="material-symbols-outlined">settings</span>
+                <span class="text">Settings</span>
+            </a>
+        </nav>
+        
+        <div class="trust-score-box">
+            <p class="trust-score-title">Personal Trust Score</p>
+            <div class="trust-score-value">
+                <span class="score" data-auth="trust-score">--</span>
+                <span class="material-symbols-outlined">verified</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        
+        <!-- Top Navbar -->
+        <header class="top-navbar">
+            <div class="search-area">
+                <span class="material-symbols-outlined">search</span>
+                <input type="text" class="search-input" placeholder="Search loans or friends...">
+            </div>
+            
+            <div class="user-area">
+                <button class="notification-btn">
+                    <span class="material-symbols-outlined">notifications</span>
+                    <span class="notification-dot"></span>
+                </button>
+                
+                <div class="user-profile">
+                    <div class="user-info">
+                        <p class="user-name" data-auth="user-name">Loading…</p>
+                        <p class="user-trust">Trust Score: <span data-auth="trust-score">--</span></p>
+                    </div>
+                    <div class="user-avatar" data-auth="avatar" data-size="40"></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="page-container">
+            
+            <!-- Header -->
+            <div class="page-header">
+                <div class="page-title">
+                    <h2>Loan Marketplace</h2>
+                    <p>Support a Friend today.</p>
+                </div>
+                <button class="request-btn" onclick="requestLoan()">
+                    <span class="material-symbols-outlined" style="font-size:18px;">add</span>
+                    Request a Loan
+                </button>
+            </div>
+            
+            <!-- Filter Bar -->
+            <div class="filter-section">
+                <div class="filter-row">
+                    <span class="filter-label">Sort by:</span>
+                    <button class="sort-btn active">Most Urgent</button>
+                    <button class="sort-btn">Lowest Interest</button>
+                    <button class="sort-btn">Highest Trust Score</button>
+                </div>
+                <div class="filter-row">
+                    <span class="filter-label">Categories:</span>
+                    <div class="category-tags">
+                        <span class="category-tag active">Tuition</span>
+                        <span class="category-tag">Medical</span>
+                        <span class="category-tag">Emergency</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loan Cards Grid -->
+            <div class="cards-grid" id="loansGrid">
+                <div style="text-align:center;padding:40px;color:#888;">Loading…</div>
+            </div>
+        </div>
+    </main>
+
+    <script src="auth.js"></script>
+    <script src="marketplacescript.js"></script>
+</body>
+</html>

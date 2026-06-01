@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
           showBanner('Login successful! Redirecting…', 'success');
           /* Short delay so the user sees the success message */
           setTimeout(function () {
-            window.location.href = 'deshboard.html';
+            window.location.href = 'dashboard.html';
           }, 800);
           /* Don't re-enable the button — page is about to redirect */
         } else {

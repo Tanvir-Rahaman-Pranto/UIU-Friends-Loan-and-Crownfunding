@@ -1,106 +1,156 @@
-/* ================================================================
-   Profile Script — UIU Friends Network
-   Connects to api_profile.php
-   ================================================================ */
+// ============================================================
+//  profilescript.js  –  UIU Verification & Tab Controller
+// ============================================================
 
-Auth.init({ requireLogin: true, onReady: function(user) {
-  if (user) loadProfile(user.user_id);
-}});
+document.addEventListener('DOMContentLoaded', function () {
+  // Sync verification indicators on load
+  syncVerificationState();
 
-function loadProfile(userId) {
-  fetch('api_profile.php?user_id=' + userId)
-    .then(function(r){ return r.json(); })
-    .then(function(data){
-      if (!data.success) return;
-      renderProfile(data.profile, data.stats, data.reviews, data.agreements);
-    })
-    .catch(function(e){ console.error(e); });
+  // Render Verification panel based on current state
+  renderVerificationPanel();
+});
+
+// Sync user detail badges on top and header
+function syncVerificationState() {
+  var dot = document.getElementById('verification-dot');
+  var headerBadge = document.querySelector('.verified-badge');
+  var infoBadge = document.querySelector('.badge.verified-identity');
+
+  if (localStorage.getItem('uiu_verified') === 'true') {
+    if (dot) dot.style.display = 'none';
+    if (headerBadge) headerBadge.style.backgroundColor = '#22c55e';
+    if (infoBadge) {
+      infoBadge.style.backgroundColor = 'rgba(34, 197, 94, 0.2)';
+      infoBadge.style.color = '#4ade80';
+      infoBadge.innerHTML = '<span class="material-symbols-outlined" style="font-size: 0.875rem;">verified_user</span> Identity Verified';
+    }
+  } else {
+    if (dot) dot.style.display = 'inline-block';
+    if (headerBadge) headerBadge.style.backgroundColor = '#94a3b8';
+    if (infoBadge) {
+      infoBadge.style.backgroundColor = 'rgba(239, 68, 68, 0.2)';
+      infoBadge.style.color = '#f87171';
+      infoBadge.innerHTML = '<span class="material-symbols-outlined" style="font-size: 0.875rem;">error</span> Unverified Student';
+    }
+  }
 }
 
-function renderProfile(p, stats, reviews, agreements) {
-  /* Name / ID */
-  document.querySelectorAll('[data-prof="name"]').forEach(function(el){ el.textContent = p.full_name; });
-  document.querySelectorAll('[data-prof="id-dept"]').forEach(function(el){ el.textContent = 'ID: '+p.student_id+' | '+p.department; });
-  document.querySelectorAll('[data-prof="email"]').forEach(function(el){ el.textContent = p.email; });
+// Switching Tabs logic
+function switchProfileTab(tabName) {
+  // Tab links styling toggling
+  document.getElementById('tab-overview').classList.remove('active');
+  document.getElementById('tab-verification').classList.remove('active');
+  document.getElementById('tab-payments').classList.remove('active');
 
-  /* Avatar */
-  document.querySelectorAll('[data-prof="avatar"]').forEach(function(el){
-    if (p.profile_photo) {
-      el.style.backgroundImage = "url('" + p.profile_photo + "')";
-      el.textContent = '';
-    } else {
-      el.textContent = p.full_name.split(' ').map(function(n){return n[0];}).join('').substring(0,2).toUpperCase();
-    }
-  });
+  document.getElementById('tab-' + tabName).classList.add('active');
 
-  /* Trust score */
-  var trust = p.avg_rating ? Math.round(p.avg_rating / 5 * 100) : 0;
-  document.querySelectorAll('[data-prof="trust"]').forEach(function(el){ el.textContent = trust + '%'; });
-  document.querySelectorAll('[data-prof="rating"]').forEach(function(el){ el.textContent = p.avg_rating ? Number(p.avg_rating).toFixed(1) : '0.0'; });
-  document.querySelectorAll('[data-prof="reviews-count"]').forEach(function(el){ el.textContent = p.total_reviews || 0; });
+  // Panel toggling
+  var overviewSection = document.getElementById('profile-overview-section');
+  var verificationSection = document.getElementById('profile-verification-section');
 
-  /* Stats */
-  var sl = document.getElementById('statActiveLoans');
-  if (sl) sl.textContent = stats.active_loans;
-  var sc = document.getElementById('statActiveCampaigns');
-  if (sc) sc.textContent = stats.active_campaigns;
-  var sd = document.getElementById('statTotalDonated');
-  if (sd) sd.textContent = Number(stats.total_donated).toLocaleString() + ' BDT';
+  if (tabName === 'overview') {
+    overviewSection.classList.remove('hidden');
+    verificationSection.classList.add('hidden');
+  } else if (tabName === 'verification') {
+    overviewSection.classList.add('hidden');
+    verificationSection.classList.remove('hidden');
+    renderVerificationPanel();
+  } else {
+    alert('Payment methods interface is loaded under Overview linked accounts card.');
+    document.getElementById('tab-overview').click();
+  }
+}
 
-  /* Trust bar */
-  var bar = document.getElementById('trustBar');
-  if (bar) bar.style.width = trust + '%';
+// Dynamic rendering of the verification status panel
+function renderVerificationPanel() {
+  var panel = document.getElementById('verification-status-panel');
+  var isVerified = localStorage.getItem('uiu_verified') === 'true';
 
-  /* Reviews */
-  var revContainer = document.getElementById('reviewsList');
-  if (revContainer) {
-    if (!reviews.length) {
-      revContainer.innerHTML = '<p style="color:#888;text-align:center;padding:20px;">No reviews yet.</p>';
-    } else {
-      revContainer.innerHTML = reviews.map(function(r){
-        var stars = '★'.repeat(r.rating) + '☆'.repeat(5-r.rating);
-        var date  = new Date(r.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
-        var photo = r.reviewer_photo
-          ? '<img src="'+r.reviewer_photo+'" style="width:36px;height:36px;border-radius:50%;object-fit:cover;">'
-          : '<div style="width:36px;height:36px;border-radius:50%;background:#1E3A8A;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;">'+r.reviewer_name[0]+'</div>';
-        return '<div style="display:flex;gap:12px;padding:16px 0;border-bottom:1px solid #f1f5f9;">\
-          '+photo+'\
-          <div style="flex:1;">\
-            <div style="display:flex;justify-content:space-between;align-items:center;">\
-              <span style="font-weight:600;font-size:14px;">'+r.reviewer_name+'</span>\
-              <span style="font-size:12px;color:#888;">'+date+'</span>\
-            </div>\
-            <div style="color:#f59e0b;font-size:16px;margin:2px 0;">'+stars+'</div>\
-            <p style="margin:4px 0 0;font-size:13px;color:#555;">'+r.comment+'</p>\
-          </div>\
-        </div>';
-      }).join('');
-    }
+  if (isVerified) {
+    var studentId = localStorage.getItem('uiu_student_id') || '011191000';
+    var email = localStorage.getItem('uiu_student_email') || 'rhasan191000@bscse.uiu.ac.bd';
+    
+    panel.innerHTML = `
+      <div style="background-color: var(--emerald-50); border: 1px solid var(--emerald-200); border-radius: 12px; padding: 20px; text-align: center;">
+        <span class="material-symbols-outlined" style="font-size: 4rem; color: var(--emerald-600); margin-bottom: 12px;">verified</span>
+        <h4 style="font-size: 1.125rem; font-weight: 700; color: var(--emerald-700); margin-bottom: 8px;">Identity Status: Verified Student</h4>
+        <p style="font-size: 0.875rem; color: var(--slate-600); margin-bottom: 20px;">Your identity as a registered student of United International University has been validated successfully.</p>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 12px; max-width: 400px; margin: 0 auto; text-align: left; background: white; padding: 16px; border-radius: 8px; border: 1px solid var(--slate-200);">
+          <span style="font-weight: 700; font-size: 0.875rem; color: var(--slate-500);">Student ID:</span>
+          <span style="font-weight: 600; font-size: 0.875rem; color: var(--slate-900);">${studentId}</span>
+          <span style="font-weight: 700; font-size: 0.875rem; color: var(--slate-500);">Email Address:</span>
+          <span style="font-weight: 600; font-size: 0.875rem; color: var(--slate-900);">${email}</span>
+        </div>
+        
+        <button onclick="resetVerification()" style="margin-top: 24px; background: none; border: 1px solid #ef4444; color: #ef4444; padding: 8px 16px; border-radius: 8px; font-weight: 600; font-size: 0.825rem; cursor: pointer; transition: all 0.2s;">Reset Verification</button>
+      </div>
+    `;
+  } else {
+    panel.innerHTML = `
+      <div style="display: flex; flex-direction: column; gap: 16px; max-width: 480px;">
+        <p style="font-size: 0.875rem; color: var(--slate-600); line-height: 1.6;">Please input your details below. Institutional verification ensures security, trust, and allows you to participate in active bidding.</p>
+        
+        <div class="review-form">
+          <div class="form-group" style="display: flex; flex-direction: column; gap: 6px;">
+            <label style="font-size: 0.75rem; font-weight: 700; color: var(--slate-700);">UIU Student ID</label>
+            <input type="text" id="p-student-id" class="form-textarea" placeholder="e.g. 011 191 000" style="padding: 10px 14px;" />
+          </div>
+          <div class="form-group" style="display: flex; flex-direction: column; gap: 6px;">
+            <label style="font-size: 0.75rem; font-weight: 700; color: var(--slate-700);">Institutional Email</label>
+            <input type="email" id="p-student-email" class="form-textarea" placeholder="e.g. student@bscse.uiu.ac.bd" style="padding: 10px 14px;" />
+          </div>
+          <div class="form-group" style="display: flex; flex-direction: column; gap: 6px;">
+            <label style="font-size: 0.75rem; font-weight: 700; color: var(--slate-700);">Verification Code (Sent to Email)</label>
+            <input type="text" id="p-verify-code" class="form-textarea" placeholder="Enter code (Simulation: 123456)" style="padding: 10px 14px;" />
+          </div>
+          
+          <button onclick="handleVerificationSubmit()" class="submit-review-btn" style="margin-top: 10px; padding: 12px 24px;">Submit and Verify Identity</button>
+        </div>
+      </div>
+    `;
+  }
+}
+
+// Trigger Verification Submit
+function handleVerificationSubmit() {
+  var id = document.getElementById('p-student-id').value.trim();
+  var email = document.getElementById('p-student-email').value.trim();
+  var code = document.getElementById('p-verify-code').value.trim();
+
+  if (!id) {
+    alert('Please enter your Student ID.');
+    return;
   }
 
-  /* Agreements */
-  var agContainer = document.getElementById('agreementsList');
-  if (agContainer) {
-    if (!agreements.length) {
-      agContainer.innerHTML = '<p style="color:#888;text-align:center;padding:20px;">No agreements yet.</p>';
-    } else {
-      agContainer.innerHTML = agreements.map(function(a){
-        var statusColors = { pending:'#f59e0b', partial:'#3b82f6', completed:'#10b981', defaulted:'#ef4444' };
-        var color = statusColors[a.repayment_status] || '#888';
-        return '<div style="padding:14px 0;border-bottom:1px solid #f1f5f9;">\
-          <div style="display:flex;justify-content:space-between;align-items:center;">\
-            <div>\
-              <span style="font-weight:600;font-size:14px;">'+a.borrower_name+' ↔ '+a.lender_name+'</span>\
-              <div style="font-size:12px;color:#888;margin-top:2px;">'+Number(a.principal_amount).toLocaleString()+' BDT | Due: '+(a.due_date||'N/A')+'</div>\
-            </div>\
-            <span style="font-size:12px;font-weight:600;color:'+color+';text-transform:capitalize;background:'+color+'20;padding:3px 10px;border-radius:20px;">'+a.repayment_status+'</span>\
-          </div>\
-        </div>';
-      }).join('');
-    }
+  var emailPattern = /^[a-zA-Z0-9._%+-]+@.*uiu.*\.ac\.bd$/;
+  if (!email || !emailPattern.test(email)) {
+    alert('Please enter a valid UIU Institutional email.');
+    return;
   }
 
-  /* Verification badge */
-  var vb = document.getElementById('verifiedBadge');
-  if (vb) vb.style.display = p.is_verified ? 'inline-flex' : 'none';
+  if (code !== '123456') {
+    alert('Invalid verification code. Please use the simulation code: 123456');
+    return;
+  }
+
+  // Set Verified state
+  localStorage.setItem('uiu_verified', 'true');
+  localStorage.setItem('uiu_student_id', id);
+  localStorage.setItem('uiu_student_email', email);
+
+  alert('Success! Your UIU identity has been verified.');
+  syncVerificationState();
+  renderVerificationPanel();
+}
+
+// Reset Verification (for easy demo simulation testing)
+function resetVerification() {
+  localStorage.removeItem('uiu_verified');
+  localStorage.removeItem('uiu_student_id');
+  localStorage.removeItem('uiu_student_email');
+
+  alert('Verification status reset successfully.');
+  syncVerificationState();
+  renderVerificationPanel();
 }

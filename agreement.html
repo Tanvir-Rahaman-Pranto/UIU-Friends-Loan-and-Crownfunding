@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    
+    <!-- Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="sidebar-logo">
@@ -20,7 +20,7 @@
         </div>
         
         <nav class="sidebar-nav">
-            <a href="dashboard.html" class="nav-link">
+            <a href="deshboard.html" class="nav-link">
                 <span class="material-symbols-outlined">dashboard</span>
                 <span class="text">Dashboard</span>
             </a>
@@ -32,11 +32,15 @@
                 <span class="material-symbols-outlined">groups</span>
                 <span class="text">Crowdfunding Hub</span>
             </a>
-            <a href="agreements.html" class="nav-link active">
+            <a href="myloans.html" class="nav-link">
+                <span class="material-symbols-outlined">receipt_long</span>
+                <span class="text">My Loans</span>
+            </a>
+            <a href="agreement.html" class="nav-link active">
                 <span class="material-symbols-outlined">description</span>
                 <span class="text">My Agreements</span>
             </a>
-            <a href="reviews.html" class="nav-link">
+            <a href="reviews_trust.html" class="nav-link">
                 <span class="material-symbols-outlined">verified_user</span>
                 <span class="text">Reviews & Trust</span>
             </a>
@@ -47,17 +51,17 @@
                 <span class="material-symbols-outlined">help</span>
                 <span class="text">Help & Support</span>
             </a>
-            <a href="logout.php" class="footer-link logout">
+            <a href="login.html" class="footer-link logout">
                 <span class="material-symbols-outlined">logout</span>
                 <span class="text">Logout</span>
             </a>
         </div>
     </aside>
 
-
+    <!-- Main Content -->
     <main class="main-content">
         
-    
+        <!-- Top Navbar -->
         <header class="top-navbar">
             <div class="search-area">
                 <span class="material-symbols-outlined">search</span>
@@ -72,10 +76,10 @@
                 
                 <div class="user-profile">
                     <div class="user-info">
-                        <p class="user-name"><span data-auth="user-name">Loading…</span></p>
+                        <p class="user-name">Rahim Hasan</p>
                         <p class="user-trust">
                             <span class="material-symbols-outlined" style="font-size: 14px;">verified</span>
-                            Trust Score: 98%
+                            Trust Score: ★★★★★
                         </p>
                     </div>
                     <div class="user-avatar">
@@ -85,10 +89,10 @@
             </div>
         </header>
 
-        
+        <!-- Page Content -->
         <div class="page-container">
             
-        
+            <!-- Page Header -->
             <div class="page-header">
                 <div class="page-title">
                     <h2>Active Agreement: Semester Fee Loan</h2>
@@ -100,13 +104,13 @@
                 </div>
             </div>
 
-            
+            <!-- Content Grid -->
             <div class="content-grid">
                 
-                
+                <!-- Left Column -->
                 <div class="left-col">
                     
-                    
+                    <!-- Contract Summary Card -->
                     <div class="contract-card">
                         <h3 class="card-title">
                             <span class="material-symbols-outlined">article</span>
@@ -118,14 +122,14 @@
                                 <p class="summary-label">Borrower</p>
                                 <div class="summary-user">
                                     <p class="summary-name">Karim Ahmed</p>
-                                    <span class="trust-tag">95%</span>
+                                    <span class="trust-tag">★★★★★</span>
                                 </div>
                             </div>
                             <div class="summary-item">
                                 <p class="summary-label">Lender</p>
                                 <div class="summary-user">
                                     <p class="summary-name">Rahim Hasan (You)</p>
-                                    <span class="trust-tag">99%</span>
+                                    <span class="trust-tag">★★★★★</span>
                                 </div>
                             </div>
                             
@@ -256,58 +260,6 @@
         </div>
     </main>
 
-    
-    <!-- Dynamic Agreement Content -->
-    <div style="display:flex;gap:20px;flex-wrap:wrap;padding:20px;">
-      <!-- List -->
-      <div style="flex:1;min-width:300px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-          <h2 style="margin:0;font-size:20px;font-weight:700;">My Agreements</h2>
-          <a href="marketplace.html" style="font-size:13px;color:#1E3A8A;font-weight:600;">Browse Loans →</a>
-        </div>
-        <div id="agreementListContainer">
-          <div style="text-align:center;padding:40px;color:#888;">Loading agreements…</div>
-        </div>
-      </div>
-
-      <!-- Detail Panel -->
-      <div id="agreementDetailPanel" style="display:none;flex:1.2;min-width:340px;background:#fff;border-radius:16px;padding:24px;box-shadow:0 4px 24px rgba(0,0,0,.1);">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-          <h3 id="detailTitle" style="margin:0;font-size:18px;font-weight:700;">Agreement Details</h3>
-          <button onclick="document.getElementById('agreementDetailPanel').style.display='none'" style="background:none;border:none;cursor:pointer;font-size:20px;color:#888;">✕</button>
-        </div>
-        <div id="detailSummary"></div>
-
-        <div style="margin-top:20px;">
-          <h4 style="margin:0 0 12px;font-size:14px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.5px;">Repayment History</h4>
-          <div id="repaymentHistory"></div>
-          <button id="repaymentBtn" onclick="confirmTransfer()" style="display:none;width:100%;margin-top:12px;padding:12px;background:#1E3A8A;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:14px;">
-            ✓ Record a Repayment
-          </button>
-        </div>
-
-        <div style="margin-top:20px;">
-          <h4 style="margin:0 0 12px;font-size:14px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.5px;">Messages</h4>
-          <div id="chatMessages" style="height:200px;overflow-y:auto;background:#f8fafc;border-radius:8px;padding:12px;margin-bottom:10px;"></div>
-          <div style="display:flex;gap:8px;">
-            <input id="messageInput" type="text" placeholder="Type a message…" style="flex:1;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px;">
-            <button onclick="sendMessage()" style="padding:10px 16px;background:#1E3A8A;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;">Send</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <style>
-      .msg-row { display:flex; margin-bottom:8px; }
-      .msg-row.mine { justify-content:flex-end; }
-      .msg-row.theirs { justify-content:flex-start; }
-      .msg-bubble { max-width:75%;padding:10px 14px;border-radius:12px;font-size:13px;line-height:1.4; }
-      .msg-row.mine .msg-bubble { background:#1E3A8A;color:#fff;border-bottom-right-radius:2px; }
-      .msg-row.theirs .msg-bubble { background:#f1f5f9;color:#1e293b;border-bottom-left-radius:2px; }
-      .msg-time { font-size:10px;opacity:.7;margin:4px 0 0;text-align:right; }
-    </style>
-
-    <script src="auth.js"></script>
     <script src="agreementscript.js"></script>
 </body>
 </html>

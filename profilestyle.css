@@ -807,3 +807,7 @@ body {
 .review-text.italic {
     font-style: italic;
 }
+
+.hidden {
+    display: none !important;
+}

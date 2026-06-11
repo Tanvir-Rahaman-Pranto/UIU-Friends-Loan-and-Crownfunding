@@ -20,7 +20,7 @@
         </div>
         
         <nav class="sidebar-nav">
-            <a href="dashboard.html" class="nav-link">
+            <a href="deshboard.html" class="nav-link">
                 <span class="material-symbols-outlined">dashboard</span>
                 <span class="text">Dashboard</span>
             </a>
@@ -32,11 +32,11 @@
                 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">volunteer_activism</span>
                 <span class="text">Crowdfunding Hub</span>
             </a>
-            <a href="agreement.html" class="nav-link">
+            <a href="myloans.html" class="nav-link">
                 <span class="material-symbols-outlined">description</span>
-                <span class="text">My Agreements</span>
+                <span class="text">My Loans</span>
             </a>
-            <a href="reviews.html" class="nav-link">
+            <a href="profile.html" class="nav-link">
                 <span class="material-symbols-outlined">verified_user</span>
                 <span class="text">Reviews & Trust Score</span>
             </a>
@@ -47,7 +47,7 @@
                 <span class="material-symbols-outlined">help</span>
                 <span class="text">Help & Support</span>
             </a>
-            <a href="logout.php" class="footer-link logout">
+            <a href="login.html" class="footer-link logout">
                 <span class="material-symbols-outlined">logout</span>
                 <span class="text">Logout</span>
             </a>
@@ -70,10 +70,12 @@
                     <span class="notification-dot"></span>
                 </button>
                 
+                <span id="cf-verification-badge" class="cf-badge unverified">⚠ Verify to Donate</span>
+
                 <div class="user-profile">
                     <div class="user-info">
-                        <p data-auth="user-name">Loading…</p>
-                        <p class="user-trust">Trust Score: 98%</p>
+                        <p class="user-name">Rahim Hasan</p>
+                        <p class="user-trust">Trust Score: ★★★★★</p>
                     </div>
                     <div class="user-avatar">
                         <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBmWfUq9URlsrqw_uYpI-S6EbHSS6WpQKkBN0IHk67qrb-SWTlawLRhvaytGpv8L2ROIa9Wr6obNgVCiUko4QWBhyHTx1dLF7lfOwHEgQcT3eM96UlVl9F-1WDuny1E-AOej-97xbZgFV4mrGQg-XGvUhQLovBdHPKRaFoCX8ce8qXZUB6dV7CyfbPdT1J6-cfWfz62BwA9XHmmvjCoDUeHLd3MDVYx8yRNX3gNSdp7G5ndW7grMKoRvrKqLc8LCD95B4lSjel2zeF" alt="Profile">
@@ -94,9 +96,6 @@
                     <span class="material-symbols-outlined">add_circle</span>
                     Start a Campaign
                 </button>
-
-    <div id="campaignsGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;margin-top:20px;padding:0 20px 20px;"></div>
-    <div id="staticCampaigns" style="display:none;">
             </div>
             
             <!-- Filter Bar -->
@@ -288,7 +287,7 @@
                         
                         <div class="feed-card-footer">
                             <span class="feed-card-donors">12 people donated</span>
-                            <button class="feed-card-btn" onclick="alert('Donate clicked')">Donate</button>
+                            <button class="feed-card-btn" onclick="submitDonation()">Donate</button>
                         </div>
                     </div>
                 </div>
@@ -317,7 +316,7 @@
                         
                         <div class="feed-card-footer">
                             <span class="feed-card-donors">156 people donated</span>
-                            <button class="feed-card-btn" onclick="alert('Donate clicked')">Donate</button>
+                            <button class="feed-card-btn" onclick="submitDonation()">Donate</button>
                         </div>
                     </div>
                 </div>
@@ -327,60 +326,57 @@
         </div>
     </main>
 
-    <script src="auth.js"></script>
     <script src="crowdfundingscript.js"></script>
 
-  <!-- Donate Modal -->
-  <div id="donateModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;overflow-y:auto;">
-    <div style="background:#fff;max-width:440px;margin:60px auto;border-radius:16px;padding:32px;">
-      <h3 id="donateModalTitle" style="margin:0 0 20px;font-size:18px;font-weight:700;">Donate Now</h3>
-      <div id="donateBanner" style="display:none;padding:10px 14px;border-radius:8px;margin-bottom:16px;font-size:14px;"></div>
-      <p style="font-size:13px;color:#666;margin-bottom:12px;">Select amount:</p>
-      <div style="display:flex;gap:10px;margin-bottom:14px;">
-        <button id="btn-500" class="preset-btn" onclick="selectAmount(500)" style="flex:1;padding:10px;border:2px solid #e5e7eb;border-radius:8px;cursor:pointer;font-weight:600;background:#fff;">500 BDT</button>
-        <button id="btn-1000" class="preset-btn active" onclick="selectAmount(1000)" style="flex:1;padding:10px;border:2px solid #1E3A8A;border-radius:8px;cursor:pointer;font-weight:600;background:#e0e7ff;">1,000 BDT</button>
-      </div>
-      <label style="display:block;margin-bottom:6px;font-size:13px;font-weight:600;">Or enter custom amount (BDT)</label>
-      <input type="number" id="customInput" min="1" placeholder="e.g. 2500" oninput="customInputChanged()" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;margin-bottom:14px;box-sizing:border-box;font-size:14px;">
-      <label style="display:block;margin-bottom:6px;font-size:13px;font-weight:600;">Transaction Reference (optional)</label>
-      <input type="text" id="txRef" placeholder="bKash/Nagad transaction ID" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;margin-bottom:14px;box-sizing:border-box;font-size:14px;">
-      <label style="display:flex;align-items:center;gap:8px;margin-bottom:20px;cursor:pointer;font-size:14px;">
-        <input type="checkbox" id="anonymousCheck"> Donate anonymously
-      </label>
-      <div style="display:flex;gap:10px;">
-        <button id="donateSubmitBtn" onclick="submitDonation()" style="flex:1;padding:12px;background:#10b981;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:15px;">Confirm Donation</button>
-        <button onclick="document.getElementById('donateModal').style.display='none'" style="flex:1;padding:12px;background:#f1f5f9;border:1px solid #ddd;border-radius:8px;font-weight:600;cursor:pointer;">Cancel</button>
-      </div>
+    <!-- ===== UIU VERIFICATION MODAL ===== -->
+    <div id="cf-verification-modal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(15,23,42,0.5);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:16px;">
+        <div style="background:#fff;width:100%;max-width:460px;border-radius:18px;box-shadow:0 24px 60px rgba(0,0,0,0.22);overflow:hidden;font-family:'Public Sans',sans-serif;animation:cfSlide 0.25s ease;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;padding:24px 28px 18px;border-bottom:1px solid #f1f5f9;">
+                <div>
+                    <h2 style="font-size:18px;font-weight:800;color:#1e293b;margin:0;">🎓 UIU Student Verification</h2>
+                    <p style="font-size:12px;color:#64748b;margin:4px 0 0;">Only verified UIU students can donate or start campaigns.</p>
+                </div>
+                <button onclick="closeCfVerificationModal()" style="background:none;border:none;cursor:pointer;color:#94a3b8;display:flex;padding:4px;">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div style="padding:20px 28px 24px;display:flex;flex-direction:column;gap:16px;">
+                <div style="display:flex;flex-direction:column;gap:6px;">
+                    <label style="font-size:12px;font-weight:700;color:#334155;">UIU Student ID</label>
+                    <input type="text" id="cf-student-id" placeholder="e.g. 011XXXXXXX" style="padding:11px 16px;background:#f8fafc;border:2px solid #e2e8f0;border-radius:10px;font-size:14px;outline:none;color:#1e293b;">
+                </div>
+                <div style="display:flex;flex-direction:column;gap:6px;">
+                    <label style="font-size:12px;font-weight:700;color:#334155;">UIU Institutional Email</label>
+                    <input type="email" id="cf-student-email" placeholder="e.g. student@bscse.uiu.ac.bd" style="padding:11px 16px;background:#f8fafc;border:2px solid #e2e8f0;border-radius:10px;font-size:14px;outline:none;color:#1e293b;">
+                </div>
+                <div style="display:flex;gap:10px;align-items:flex-start;background:#eff6ff;border-radius:10px;padding:12px 14px;font-size:12px;color:#1e40af;">
+                    <span class="material-symbols-outlined" style="font-size:18px;flex-shrink:0;">info</span>
+                    <p style="margin:0;">Email must end with <strong>uiu.ac.bd</strong>. Only UIU students can participate in crowdfunding activities.</p>
+                </div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:flex-end;gap:16px;padding:16px 28px;background:#f8fafc;border-top:1px solid #e2e8f0;">
+                <button onclick="closeCfVerificationModal()" style="background:none;border:none;font-size:13px;font-weight:700;color:#64748b;cursor:pointer;">Cancel</button>
+                <button onclick="submitCfVerification()" style="display:flex;align-items:center;gap:6px;background:#1E3A8A;color:#fff;border:none;border-radius:10px;padding:11px 22px;font-size:13px;font-weight:700;cursor:pointer;">
+                    <span class="material-symbols-outlined" style="font-size:18px;">verified</span> Verify My Identity
+                </button>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <!-- Start Campaign Modal -->
-  <div id="campaignModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;overflow-y:auto;">
-    <div style="background:#fff;max-width:500px;margin:60px auto;border-radius:16px;padding:32px;">
-      <h3 style="margin:0 0 20px;font-size:20px;">Start a Campaign</h3>
-      <div id="campaignBanner" style="display:none;padding:10px 14px;border-radius:8px;margin-bottom:16px;font-size:14px;"></div>
-      <label style="display:block;margin-bottom:6px;font-size:13px;font-weight:600;">Campaign Title *</label>
-      <input id="cm_title" type="text" placeholder="e.g. Medical Help for Ahmed" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;margin-bottom:14px;box-sizing:border-box;font-size:14px;">
-      <label style="display:block;margin-bottom:6px;font-size:13px;font-weight:600;">Description</label>
-      <textarea id="cm_desc" rows="3" placeholder="Explain the cause…" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;margin-bottom:14px;box-sizing:border-box;font-size:14px;resize:vertical;"></textarea>
-      <label style="display:block;margin-bottom:6px;font-size:13px;font-weight:600;">Target Amount (BDT) *</label>
-      <input id="cm_target" type="number" min="1" placeholder="e.g. 50000" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;margin-bottom:14px;box-sizing:border-box;font-size:14px;">
-      <label style="display:block;margin-bottom:6px;font-size:13px;font-weight:600;">Category</label>
-      <select id="cm_cat" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;margin-bottom:14px;box-sizing:border-box;font-size:14px;">
-        <option value="medical">Medical</option>
-        <option value="education">Education</option>
-        <option value="emergency">Emergency</option>
-        <option value="project">Project</option>
-        <option value="other">Other</option>
-      </select>
-      <label style="display:block;margin-bottom:6px;font-size:13px;font-weight:600;">Cover Image (optional)</label>
-      <input type="file" id="cm_cover" accept="image/*" style="width:100%;margin-bottom:20px;">
-      <div style="display:flex;gap:10px;">
-        <button id="campaignSubmitBtn" onclick="submitCampaign()" style="flex:1;padding:12px;background:#1E3A8A;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:15px;">Submit Campaign</button>
-        <button onclick="document.getElementById('campaignModal').style.display='none'" style="flex:1;padding:12px;background:#f1f5f9;border:1px solid #ddd;border-radius:8px;font-weight:600;cursor:pointer;">Cancel</button>
-      </div>
-    </div>
-  </div>
+    <style>
+    @keyframes cfSlide {
+        from { opacity:0; transform: translateY(22px); }
+        to   { opacity:1; transform: translateY(0); }
+    }
+    .cf-badge {
+        display: inline-flex; align-items: center; gap: 5px;
+        padding: 5px 12px; border-radius: 20px;
+        font-size: 12px; font-weight: 700; cursor: pointer;
+    }
+    .cf-badge.verified   { background: #d1fae5; color: #065f46; }
+    .cf-badge.unverified { background: #fef3c7; color: #92400e; }
+    .cf-badge.unverified:hover { background: #fde68a; }
+    </style>
 
 </body>
 </html>

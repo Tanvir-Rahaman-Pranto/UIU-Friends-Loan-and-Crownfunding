@@ -5,54 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crowdfunding Hub - UIU Friends Network</title>
     <link rel="stylesheet" href="crowdfundingstyle.css">
+  <link rel="stylesheet" href="sidebar.css" />
 </head>
 <body>
 
     <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <div class="sidebar-logo">
-                <span class="material-symbols-outlined">group</span>
-            </div>
-            <div class="sidebar-title">
-                <h1>UIU Friends<br>Network</h1>
-            </div>
+        <div class="sidebar">
+      <div class="logo">
+        <div class="logo-icon">UF</div>
+        <div>
+          <div class="logo-name">UIU Friends</div>
+          <div class="logo-sub">Loan &amp; Crowdfunding</div>
         </div>
-        
-        <nav class="sidebar-nav">
-            <a href="deshboard.html" class="nav-link">
-                <span class="material-symbols-outlined">dashboard</span>
-                <span class="text">Dashboard</span>
-            </a>
-            <a href="marketplace.html" class="nav-link">
-                <span class="material-symbols-outlined">account_balance_wallet</span>
-                <span class="text">Loan Marketplace</span>
-            </a>
-            <a href="crowdfunding.html" class="nav-link active">
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">volunteer_activism</span>
-                <span class="text">Crowdfunding Hub</span>
-            </a>
-            <a href="myloans.html" class="nav-link">
-                <span class="material-symbols-outlined">description</span>
-                <span class="text">My Loans</span>
-            </a>
-            <a href="profile.html" class="nav-link">
-                <span class="material-symbols-outlined">verified_user</span>
-                <span class="text">Reviews & Trust Score</span>
-            </a>
-        </nav>
-        
-        <div class="sidebar-footer">
-            <a href="#" class="footer-link">
-                <span class="material-symbols-outlined">help</span>
-                <span class="text">Help & Support</span>
-            </a>
-            <a href="login.html" class="footer-link logout">
-                <span class="material-symbols-outlined">logout</span>
-                <span class="text">Logout</span>
-            </a>
-        </div>
-    </aside>
+      </div>
+
+      <div class="nav-section">LOAN SYSTEM</div>
+      <a href="dashboard.html" class="nav-link">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span>Dashboard</span>
+      </a>
+      <a href="marketplace.html" class="nav-link">
+        <span class="material-symbols-outlined">storefront</span>
+        <span>Loan Marketplace</span>
+      </a>
+
+      <div class="nav-section">DONATION SYSTEM</div>
+      <a href="crowdfunding.html" class="nav-link active">
+        <span class="material-symbols-outlined">volunteer_activism</span>
+        <span>Crowdfunding Hub</span>
+      </a>
+
+      <div class="nav-section">USER ACCOUNT</div>
+      <a href="myloans.html" class="nav-link">
+        <span class="material-symbols-outlined">account_balance_wallet</span>
+        <span>My Loans</span>
+      </a>
+      <a href="agreement.html" class="nav-link">
+        <span class="material-symbols-outlined">handshake</span>
+        <span>Active Agreements</span>
+      </a>
+      <a href="reviews_trust.html" class="nav-link">
+        <span class="material-symbols-outlined">verified_user</span>
+        <span>Reviews & Trust Score</span>
+      </a>
+      <a href="profile.html" class="nav-link">
+        <span class="material-symbols-outlined">settings</span>
+        <span>Settings & Profile</span>
+      </a>
+
+      <div class="sidebar-footer">
+        <a href="#" class="nav-link">
+          <span class="material-symbols-outlined">help</span>
+          <span>Help &amp; Support</span>
+        </a>
+        <a href="login.html" class="nav-link logout" onclick="if(typeof doLogout==='function'){doLogout(event);}">
+          <span class="material-symbols-outlined">logout</span>
+          <span>Logout</span>
+        </a>
+      </div>
+    </div>
 
     <!-- Main Content -->
     <main class="main-content">
@@ -72,15 +83,15 @@
                 
                 <span id="cf-verification-badge" class="cf-badge unverified">⚠ Verify to Donate</span>
 
-                <div class="user-profile">
+                <a href="profile.html" class="user-profile" style="text-decoration: none; display: flex; align-items: center; gap: 8px; color: inherit;">
                     <div class="user-info">
-                        <p class="user-name">Rahim Hasan</p>
+                        <p class="user-name">Loading...</p>
                         <p class="user-trust">Trust Score: ★★★★★</p>
                     </div>
                     <div class="user-avatar">
-                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBmWfUq9URlsrqw_uYpI-S6EbHSS6WpQKkBN0IHk67qrb-SWTlawLRhvaytGpv8L2ROIa9Wr6obNgVCiUko4QWBhyHTx1dLF7lfOwHEgQcT3eM96UlVl9F-1WDuny1E-AOej-97xbZgFV4mrGQg-XGvUhQLovBdHPKRaFoCX8ce8qXZUB6dV7CyfbPdT1J6-cfWfz62BwA9XHmmvjCoDUeHLd3MDVYx8yRNX3gNSdp7G5ndW7grMKoRvrKqLc8LCD95B4lSjel2zeF" alt="Profile">
+                        <img src="https://ui-avatars.com/api/?name=UIU+User&background=1E3A8A&color=fff" alt="Profile">
                     </div>
-                </div>
+                </a>
             </div>
         </header>
 
@@ -100,102 +111,60 @@
             
             <!-- Filter Bar -->
             <div class="filter-bar">
-                <button class="filter-pill active" onclick="selectFilter(this)">All Campaigns</button>
-                <button class="filter-pill" onclick="selectFilter(this)">Medical Emergencies</button>
-                <button class="filter-pill" onclick="selectFilter(this)">Tuition Help</button>
-                <button class="filter-pill" onclick="selectFilter(this)">Charity Events</button>
+                <button class="filter-pill active" data-category=""          onclick="selectFilter(this)">All Campaigns</button>
+                <button class="filter-pill"        data-category="medical"    onclick="selectFilter(this)">Medical Emergencies</button>
+                <button class="filter-pill"        data-category="education"  onclick="selectFilter(this)">Tuition Help</button>
+                <button class="filter-pill"        data-category="other"      onclick="selectFilter(this)">Charity Events</button>
             </div>
 
             <!-- Content Grid -->
             <div class="content-grid">
                 
-                <!-- Left Column -->
+                <!-- Left Column — populated dynamically by crowdfundingscript.js -->
                 <div class="main-col">
                     <div class="campaign-card">
                         <div class="campaign-image-container">
-                            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3iLwkiPZHUhshoaHJB22aXgjdfZMYC99mJNwAKr-HUaTzuva9Wc8wwQwnKWd_KGwgk4pZI4G-V-TM-caoRVwK2rO13WzrMT-Idvmi0CzZwG6riCiEGo-xbKZnwn88DbUeT71tms8Ux9_bdAd5xEuxkyHwcfwgTuguGTQmODXGeWm3cHldsftwuPZ34vEAc7YtlmHVmEU9nuN2Ado8Ykwn3vUZdHUTFCVWDn7mXO0LncHBd2qdsnNlXG2htlwAnRvdNrlP8hwiLy82" alt="Medical Campaign">
+                            <img src="" alt="Campaign" style="min-height:200px; background:#f1f5f9;">
                             <div class="verified-badge">
                                 <span class="material-symbols-outlined" style="font-size:16px;">verified</span> Admin Verified
                             </div>
                         </div>
                         
                         <div class="campaign-details">
-                            <h1 class="campaign-title">Emergency Medical Fund for Asif</h1>
-                            <p class="campaign-desc">
-                                Asif, a dedicated 3rd-year CS student, recently met with a severe accident. He needs immediate surgery and prolonged rehabilitation. His family is struggling to cover the mounting medical costs. Let's come together as the UIU family to help him get back on his feet and continue his education.
-                            </p>
+                            <h1 class="campaign-title" style="color:#94a3b8;">Loading campaign...</h1>
+                            <p class="campaign-desc"></p>
                             
                             <!-- Documents Grid -->
                             <h3 class="section-header">
                                 <span class="material-symbols-outlined">description</span> Details and Proof
                             </h3>
-                            
-                            <div class="proof-grid">
-                                <div class="proof-item">
-                                    <span class="material-symbols-outlined proof-icon">description</span>
-                                    <p class="proof-name">Medical_Report.pdf</p>
-                                </div>
-                                <div class="proof-item">
-                                    <span class="material-symbols-outlined proof-icon">payments</span>
-                                    <p class="proof-name">Hospital_Bill.jpg</p>
-                                </div>
-                                <div class="proof-item">
-                                    <span class="material-symbols-outlined proof-icon">id_card</span>
-                                    <p class="proof-name">Student_ID.pdf</p>
-                                </div>
-                            </div>
+                            <div class="proof-grid"></div>
                             
                             <!-- Comments -->
                             <h3 class="section-header">
                                 <span class="material-symbols-outlined">forum</span> Supportive Comments
                             </h3>
-                            
                             <div class="comments-list">
-                                <div class="comment-row">
-                                    <div class="comment-avatar">
-                                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsPyHBgLvpvlr8FJUtXuX-sTxyiAd_ff6pftaffot36s5tLCf-su8H9Vye3r2Wa76w0puqonCVL-Nlccv_0fwsoRZDTWtSJm17TJGYpc6qvwt07F6Tsro9lmpefRzQHVz-Q1bMQe3aUxvgAXbh9_aT_WNKQ_y-zJpPJl8mN_r6wBxNJyRPCuPJv0egmqnMwrKkG5l9dlkMi77s2GDoPACleI6QZdXUldjrrSXlHobLE44HEKDvTcRrg1nt7zfUtMq-NOUFcLtfZQQ4" alt="Zubair Ahmed">
-                                    </div>
-                                    <div class="comment-content">
-                                        <div class="comment-header">
-                                            <span class="comment-author">Zubair Ahmed</span>
-                                            <span class="comment-time">2h ago</span>
-                                        </div>
-                                        <p class="comment-text">Stay strong Asif! We are all praying for your quick recovery. Contribution sent.</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="comment-row">
-                                    <div class="comment-avatar">
-                                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKxWfxNvhCmjobd99hjv-qRb6tbzazRyzxSHzuTGET5dKFuZc-2qEXBGPDpO3A0zDNNgMSNPpaXVZsa66Do09nAaS71F2pg5804RYImWuqwi79WsxJELnMcQCIK4yglQTBdbdUUgTYvEEfWEpvoiyYijnwfO7mqoCSlXayJ6GdQ9daFlm7c0W7E8HIe9xk0W7Az8XUWQ8kpDytp3oQQ83qCsAzUPsMUPsYtH9ksAFNpSgMzMFdGnz7H9Ee4rtl4EyA6LaFUPO6aZQp" alt="Sarah Khan">
-                                    </div>
-                                    <div class="comment-content">
-                                        <div class="comment-header">
-                                            <span class="comment-author">Sarah Khan</span>
-                                            <span class="comment-time">5h ago</span>
-                                        </div>
-                                        <p class="comment-text">Shared this with my department group. I hope we reach the goal soon.</p>
-                                    </div>
-                                </div>
+                                <p style="font-size:13px; color:#94a3b8; padding:12px 0;">Loading comments...</p>
                             </div>
-                            
                         </div>
                     </div>
                 </div>
 
-                <!-- Right Column (Sticky Donation Box) -->
+                <!-- Right Column (Sticky Donation Box) — stats updated by crowdfundingscript.js -->
                 <div class="sticky-col">
                     <div class="sticky-container">
                         <div class="donation-card">
                             
                             <div class="donation-stats">
                                 <div class="donation-amounts">
-                                    <span class="amount-raised">35,000 BDT</span>
-                                    <span class="amount-goal">raised of 50,000 BDT</span>
+                                    <span class="amount-raised">0 BDT</span>
+                                    <span class="amount-goal">raised of 0 BDT</span>
                                 </div>
                                 <div class="progress-track">
-                                    <div class="progress-fill" style="width: 70%"></div>
+                                    <div class="progress-fill" style="width: 0%"></div>
                                 </div>
-                                <p class="donor-count">42 people donated</p>
+                                <p class="donor-count">0 people donated</p>
                             </div>
                             
                             <div class="donation-form">
@@ -218,39 +187,12 @@
                                 <button class="donate-submit-btn" onclick="submitDonation()">Donate Now</button>
                             </div>
                             
-                            <!-- Recent Donations -->
-                            <div class="recent-donations">
+                            <!-- Recent Donations — populated by crowdfundingscript.js after donation -->
+                            <div class="recent-donations" id="cf-recent-donations-box" style="display:none;">
                                 <h4 class="recent-title">
                                     <span class="material-symbols-outlined">history</span> Recent Donations
                                 </h4>
-                                
-                                <div class="recent-list">
-                                    <div class="recent-item">
-                                        <div class="donor-info">
-                                            <div class="donor-avatar">
-                                                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHDGXhaIO-jYJh6bHbskiNOj3YPw6jNmQvE7mmYBalzotPub10G02QwpZvVvjGWBa9tVuyj998-Npxcz_02WGFTBedex5ohMy8lT5YN8lxeKQ3NNx_YZy8funqsvzFPfJJHyuY9ShjrDc_hxlcluQdX0pM3oTivWXxMeteO8Eiv9NfNgKVmU5KbgOfThrvN16JneGy8VkfnH9MMjWtTjIQCY4MaWTGh5m_8vUBdhl00JaEK77-xqBEM4omFj4Y0_d5UyiYfjpTuugF" alt="Anonymous">
-                                            </div>
-                                            <div>
-                                                <p class="donor-name">Anonymous Guardian</p>
-                                                <p class="donor-time">2 mins ago</p>
-                                            </div>
-                                        </div>
-                                        <span class="donor-amount">+2,000 BDT</span>
-                                    </div>
-                                    
-                                    <div class="recent-item">
-                                        <div class="donor-info">
-                                            <div class="donor-avatar">
-                                                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_H-kVulJcb_aSot2wJXvCs56t_y-LjWAMcdO-2t6BV0gj_pJ81G_x7JBSPKqP8I5LBxursDKckLe7_1M9DD5DCQ9eiWrGc_v3PrDSqLTAsOaE4cHR79D3jptSWokTpRHK0ibKl9S4oB_Id-8TUdNbcnpjK0V0-3DJU3EDvre-N-tmPjSGIrJkVtj_MSasva0GLwt_F-wanhB9jynL8s4g4eKmNx5uZxXKtIzTI1OhTG89bpWfPSMsVb_8uk__O8wDHOpS4kQJLT8r" alt="Nabil">
-                                            </div>
-                                            <div>
-                                                <p class="donor-name">Nabil Istiak</p>
-                                                <p class="donor-time">15 mins ago</p>
-                                            </div>
-                                        </div>
-                                        <span class="donor-amount">+500 BDT</span>
-                                    </div>
-                                </div>
+                                <div class="recent-list" id="cf-recent-list"></div>
                             </div>
                             
                         </div>
@@ -259,68 +201,10 @@
 
             </div>
 
-            <!-- Other Campaigns Grid -->
+            <!-- Other Campaigns Grid — populated dynamically by crowdfundingscript.js -->
             <h3 class="other-campaigns-title">Other Active Campaigns</h3>
             <div class="feed-grid">
-                
-                <!-- Card 2 -->
-                <div class="feed-card">
-                    <div class="feed-card-img">
-                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuASFiYMH76RDUrPnOEqB7USQOtQBbdID0y22VbeDLEPqmY_XK615TZ6-nZc_ainXwOGu5TdpMY0FI7y-p7GvgroAQtIZSorQihKy5xdk75wy5kurBzkqh1Rtu0CgnoIaaSBkhzEP4sRjXHEyyxV9zZNMYMXfVymLqkgawu33xoO2aGVvPBA0H-xZL9_-aKXhQYtmrtY0oUcXTKvOK0ry547V27Rtpam9HNIUYUq-2SWaVPIGCckOBjD6Cxk5mqJ4-MSSKimc0-Z3U6m" alt="Tuition">
-                        <div class="feed-card-badge">
-                            <span class="material-symbols-outlined">verified</span> Admin Verified
-                        </div>
-                    </div>
-                    <div class="feed-card-content">
-                        <h4 class="feed-card-title">Final Semester Tuition Support</h4>
-                        <p class="feed-card-desc">Helping a high-achieving student complete their final semester who recently lost their scholarship due to family crisis.</p>
-                        
-                        <div class="feed-card-progress">
-                            <div class="feed-card-stats">
-                                <span class="feed-card-amounts">12,500 / 45k BDT</span>
-                                <span class="feed-card-percent">28%</span>
-                            </div>
-                            <div class="feed-card-bar">
-                                <div class="feed-card-fill" style="width: 28%"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="feed-card-footer">
-                            <span class="feed-card-donors">12 people donated</span>
-                            <button class="feed-card-btn" onclick="submitDonation()">Donate</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="feed-card">
-                    <div class="feed-card-img">
-                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgcIgRHW9oeBRsWfN_IgAWiOZPhfK-YukqRiGyUsajCFdVoaRtsN4P77KtFtOlVJfzHxGw4saFkHLvm1V6F9M2F57i8g9UGgrT0TCtXuAUyBGrtEiDYXN3gIDVq1j3ZHPYdTyGlgTQPYM1E5qeQ9uMUA58AEt50YVVJCQ_pKFql-MNCzgx_6I71wN9jjDQn1Wl6Y4GgoZBPkMUP9KVfTLab3ov4HBFtUaTva9kb7k3stBM7aEKnxZpT_hMY_CxI2kdcPk73L4RqsQZ" alt="Charity">
-                        <div class="feed-card-badge">
-                            <span class="material-symbols-outlined">verified</span> Admin Verified
-                        </div>
-                    </div>
-                    <div class="feed-card-content">
-                        <h4 class="feed-card-title">Winter Clothes Distribution 2024</h4>
-                        <p class="feed-card-desc">UIU Social Services Club is organizing a drive to provide blankets and warm clothes to the homeless students' families.</p>
-                        
-                        <div class="feed-card-progress">
-                            <div class="feed-card-stats">
-                                <span class="feed-card-amounts">68,000 / 80k BDT</span>
-                                <span class="feed-card-percent">85%</span>
-                            </div>
-                            <div class="feed-card-bar">
-                                <div class="feed-card-fill" style="width: 85%"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="feed-card-footer">
-                            <span class="feed-card-donors">156 people donated</span>
-                            <button class="feed-card-btn" onclick="submitDonation()">Donate</button>
-                        </div>
-                    </div>
-                </div>
-
+                <p style="grid-column:1/-1; text-align:center; color:#94a3b8; font-size:13px; padding:20px;">Loading campaigns...</p>
             </div>
 
         </div>

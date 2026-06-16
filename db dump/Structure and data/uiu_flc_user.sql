@@ -63,3 +63,10 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2026-05-31 23:53:10
+
+
+-- ================================================================
+--  Fix #2: Add UNIQUE constraint to student_id column
+--  Run this if you already have the table created without it.
+-- ================================================================
+ALTER TABLE `user` ADD UNIQUE KEY `student_id` (`student_id`);

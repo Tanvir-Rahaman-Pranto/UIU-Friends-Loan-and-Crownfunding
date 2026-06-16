@@ -3,243 +3,243 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agreement & Transfer Room - UIU Friends Network</title>
+    <title>Agreement Room - UIU Friends Network</title>
     <link rel="stylesheet" href="agreementstyle.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="sidebar.css" />
 </head>
 <body>
 
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <div class="sidebar-logo">
-                <span class="material-symbols-outlined">handshake</span>
-            </div>
-            <div class="sidebar-title">
-                <h1>UIU Friends</h1>
-            </div>
+        <div class="sidebar">
+      <div class="logo">
+        <div class="logo-icon">UF</div>
+        <div>
+          <div class="logo-name">UIU Friends</div>
+          <div class="logo-sub">Loan &amp; Crowdfunding</div>
         </div>
-        
-        <nav class="sidebar-nav">
-            <a href="deshboard.html" class="nav-link">
-                <span class="material-symbols-outlined">dashboard</span>
-                <span class="text">Dashboard</span>
-            </a>
-            <a href="marketplace.html" class="nav-link">
-                <span class="material-symbols-outlined">storefront</span>
-                <span class="text">Loan Marketplace</span>
-            </a>
-            <a href="crowdfunding.html" class="nav-link">
-                <span class="material-symbols-outlined">groups</span>
-                <span class="text">Crowdfunding Hub</span>
-            </a>
-            <a href="myloans.html" class="nav-link">
-                <span class="material-symbols-outlined">receipt_long</span>
-                <span class="text">My Loans</span>
-            </a>
-            <a href="agreement.html" class="nav-link active">
-                <span class="material-symbols-outlined">description</span>
-                <span class="text">My Agreements</span>
-            </a>
-            <a href="reviews_trust.html" class="nav-link">
-                <span class="material-symbols-outlined">verified_user</span>
-                <span class="text">Reviews & Trust</span>
-            </a>
-        </nav>
-        
-        <div class="sidebar-footer">
-            <a href="#" class="footer-link">
-                <span class="material-symbols-outlined">help</span>
-                <span class="text">Help & Support</span>
-            </a>
-            <a href="login.html" class="footer-link logout">
-                <span class="material-symbols-outlined">logout</span>
-                <span class="text">Logout</span>
-            </a>
-        </div>
-    </aside>
+      </div>
 
-    <!-- Main Content -->
+      <div class="nav-section">LOAN SYSTEM</div>
+      <a href="dashboard.html" class="nav-link">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span>Dashboard</span>
+      </a>
+      <a href="marketplace.html" class="nav-link">
+        <span class="material-symbols-outlined">storefront</span>
+        <span>Loan Marketplace</span>
+      </a>
+
+      <div class="nav-section">DONATION SYSTEM</div>
+      <a href="crowdfunding.html" class="nav-link">
+        <span class="material-symbols-outlined">volunteer_activism</span>
+        <span>Crowdfunding Hub</span>
+      </a>
+
+      <div class="nav-section">USER ACCOUNT</div>
+      <a href="myloans.html" class="nav-link">
+        <span class="material-symbols-outlined">account_balance_wallet</span>
+        <span>My Loans</span>
+      </a>
+      <a href="agreement.html" class="nav-link active">
+        <span class="material-symbols-outlined">handshake</span>
+        <span>Active Agreements</span>
+      </a>
+      <a href="reviews_trust.html" class="nav-link">
+        <span class="material-symbols-outlined">verified_user</span>
+        <span>Reviews & Trust Score</span>
+      </a>
+      <a href="profile.html" class="nav-link">
+        <span class="material-symbols-outlined">settings</span>
+        <span>Settings & Profile</span>
+      </a>
+
+      <div class="sidebar-footer">
+        <a href="#" class="nav-link">
+          <span class="material-symbols-outlined">help</span>
+          <span>Help &amp; Support</span>
+        </a>
+        <a href="login.html" class="nav-link logout" onclick="if(typeof doLogout==='function'){doLogout(event);}">
+          <span class="material-symbols-outlined">logout</span>
+          <span>Logout</span>
+        </a>
+      </div>
+    </div>
+
     <main class="main-content">
-        
-        <!-- Top Navbar -->
+
         <header class="top-navbar">
             <div class="search-area">
                 <span class="material-symbols-outlined">search</span>
                 <input type="text" class="search-input" placeholder="Search agreements or friends...">
             </div>
-            
             <div class="user-area">
                 <button class="notification-btn">
                     <span class="material-symbols-outlined">notifications</span>
                     <span class="notification-dot"></span>
                 </button>
-                
-                <div class="user-profile">
+                <a href="profile.html" class="user-profile" style="text-decoration:none;display:flex;align-items:center;gap:8px;color:inherit;">
                     <div class="user-info">
-                        <p class="user-name">Rahim Hasan</p>
+                        <p class="user-name" id="ag-header-name">Loading...</p>
                         <p class="user-trust">
-                            <span class="material-symbols-outlined" style="font-size: 14px;">verified</span>
-                            Trust Score: ★★★★★
+                            <span class="material-symbols-outlined" style="font-size:14px;">verified</span>
+                            <span id="ag-header-trust">—</span>
                         </p>
                     </div>
                     <div class="user-avatar">
-                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgbnNsh0HJbkQJerIUxQV6xkNZs7xAYtuLg4zACow48aSkG1BWB_sWCrYjD4ElgQPDnPSY-Vt8LjH3bLpLHoqfEpOnv6h8b7HPgvMceNbUV_WwKheCQe0baobVN0lLuoYn5zzV2Zyb36ud2mhel89kZgIWkf3EAjGFBdQQbluDW-vbV1j_QQf2qTt9pKB7dnpKhMuMVyJTgpOW1SFp5Hj0IJiQc7gXR3fI9c0AGs3yrqEc-4tz0XOdoGE5phm_6qprWlumnrbT_A_p" alt="Profile">
+                        <img id="ag-header-avatar" src="https://ui-avatars.com/api/?name=UIU+User&background=1E3A8A&color=fff" alt="Profile">
                     </div>
-                </div>
+                </a>
             </div>
         </header>
 
-        <!-- Page Content -->
-        <div class="page-container">
-            
-            <!-- Page Header -->
+        <div class="page-container" id="ag-loading" style="padding:60px;text-align:center;color:#94a3b8;">
+            <span class="material-symbols-outlined" style="font-size:48px;display:block;margin-bottom:12px;">hourglass_empty</span>
+            Loading agreement...
+        </div>
+
+        <div class="page-container" id="ag-content" style="display:none;">
+
             <div class="page-header">
                 <div class="page-title">
-                    <h2>Active Agreement: Semester Fee Loan</h2>
-                    <p>Ref ID: UIU-L-2023-8842</p>
+                    <h2 id="ag-title">Agreement Room</h2>
+                    <p id="ag-ref">Ref ID: —</p>
                 </div>
                 <div class="status-badge" id="statusBadge">
                     <span class="pulse-dot" id="pulseDot"></span>
-                    <span id="statusText">Status: Awaiting Transfer Confirmation</span>
+                    <span id="statusText">Loading...</span>
                 </div>
             </div>
 
-            <!-- Content Grid -->
             <div class="content-grid">
-                
+
                 <!-- Left Column -->
                 <div class="left-col">
-                    
-                    <!-- Contract Summary Card -->
+
+                    <!-- Contract Summary -->
                     <div class="contract-card">
                         <h3 class="card-title">
                             <span class="material-symbols-outlined">article</span>
                             Contract Summary
                         </h3>
-                        
                         <div class="summary-grid">
+
                             <div class="summary-item">
                                 <p class="summary-label">Borrower</p>
                                 <div class="summary-user">
-                                    <p class="summary-name">Karim Ahmed</p>
-                                    <span class="trust-tag">★★★★★</span>
+                                    <p class="summary-name" id="ag-borrower-name">—</p>
+                                    <span class="trust-tag" id="ag-borrower-trust">—</span>
                                 </div>
                             </div>
+
                             <div class="summary-item">
                                 <p class="summary-label">Lender</p>
                                 <div class="summary-user">
-                                    <p class="summary-name">Rahim Hasan (You)</p>
-                                    <span class="trust-tag">★★★★★</span>
+                                    <p class="summary-name" id="ag-lender-name">—</p>
+                                    <span class="trust-tag" id="ag-lender-trust">—</span>
                                 </div>
                             </div>
-                            
+
                             <div class="summary-item summary-divider">
                                 <p class="summary-label">Principal Amount</p>
-                                <p class="summary-amount">5,000 BDT</p>
+                                <p class="summary-amount" id="ag-principal">— BDT</p>
                             </div>
-                            <div class="summary-item summary-divider" style="grid-column: span 1;">
-                                <p class="summary-label">Interest Rate</p>
-                                <p class="summary-rate">4% <span>(200 BDT)</span></p>
-                            </div>
-                            
+
                             <div class="summary-item summary-divider">
+                                <p class="summary-label">Interest Rate</p>
+                                <p class="summary-rate" id="ag-interest">—</p>
+                            </div>
+
+                            <div class="summary-item summary-divider">
+                                <p class="summary-label">Total Payable</p>
+                                <p class="summary-amount" id="ag-total-payable">— BDT</p>
+                            </div>
+
+                            <div class="summary-item summary-divider">
+                                <p class="summary-label">Amount Repaid</p>
+                                <p class="summary-amount" style="color:#10b981;" id="ag-repaid">— BDT</p>
+                            </div>
+
+                            <div class="summary-item summary-divider" style="grid-column:span 2;">
                                 <p class="summary-label">Repayment Deadline</p>
-                                <p class="summary-deadline">
+                                <p class="summary-deadline" id="ag-due-date">
                                     <span class="material-symbols-outlined">calendar_today</span>
-                                    15 October, 2023
+                                    —
                                 </p>
                             </div>
+
                         </div>
                     </div>
 
-                    <!-- Transfer Instructions -->
-                    <div class="instructions-card">
+                    <!-- Repayment History -->
+                    <div class="contract-card" id="ag-repayment-section" style="margin-top:16px;">
+                        <h3 class="card-title">
+                            <span class="material-symbols-outlined">receipt_long</span>
+                            Repayment History
+                        </h3>
+                        <div id="ag-repayment-list" style="font-size:13px;color:#64748b;">
+                            Loading...
+                        </div>
+                    </div>
+
+                    <!-- Transfer / Payment Instructions -->
+                    <div class="instructions-card" id="ag-instructions-card">
                         <div class="instructions-icon">
                             <span class="material-symbols-outlined">payments</span>
                         </div>
                         <div class="instructions-content">
-                            <h4>Transfer Instructions</h4>
-                            <p>Please transfer the principal amount of <strong>5,000 BDT</strong> directly to Karim using the details below. Ensure you include 'Loan-8842' in the reference field.</p>
-                            
-                            <div class="accounts-grid">
-                                <div class="account-box">
-                                    <p class="account-label">bKash (Personal)</p>
-                                    <p class="account-number">017XXXXXX</p>
-                                </div>
-                                <div class="account-box">
-                                    <p class="account-label">Nagad (Personal)</p>
-                                    <p class="account-number">018XXXXXX</p>
-                                </div>
+                            <h4 id="ag-instructions-title">Payment Instructions</h4>
+                            <p id="ag-instructions-body">Loading payment details...</p>
+                            <div class="accounts-grid" id="ag-payment-methods">
+                                <!-- Populated dynamically from lender's payment methods -->
                             </div>
                         </div>
                     </div>
 
                     <!-- Action Area -->
                     <div class="action-area">
-                        <button class="confirm-transfer-btn" id="confirmBtn" onclick="confirmTransfer()">
-                            <span class="material-symbols-outlined">done_all</span>
-                            I have transferred 5,000 BDT via bKash
+                        <button class="confirm-transfer-btn" id="confirmBtn" disabled>
+                            <span class="material-symbols-outlined">hourglass_empty</span>
+                            Loading...
                         </button>
-                        
                         <div class="waiting-msg" id="waitingMsg">
                             <span class="material-symbols-outlined animate-spin" id="spinnerIcon">progress_activity</span>
-                            <span id="waitingText">Waiting for Karim to confirm receipt of funds...</span>
+                            <span id="waitingText">Loading agreement details...</span>
                         </div>
                     </div>
 
                 </div>
 
-                <!-- Right Column (Chat) -->
+                <!-- Right Column: Chat -->
                 <div class="right-col">
                     <div class="chat-container">
-                        
-                        <!-- Chat Header -->
+
                         <div class="chat-header">
                             <div class="chat-partner">
                                 <div class="chat-avatar-wrapper">
                                     <div class="chat-avatar">
-                                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDg2nxU_z2OVwBGw5PlVeGzwwHa9Kq5Twkv_G4YGRPVWd1chPo1zI4w0V7LiBQFUkxXC9_XT-xHfCdHLKzmoIH2-0izZ1WfU8lekqOxh0O6cHnrVW8fbEaglT0ExGtzNHsa3WFe8115q7hbfUwsyAAebPbbHOYoFZkQRZXi74va7rpbfKIXovAFVy52694R0ARd4fuSE4rPIlTotPM2V1mHWHUeRYjyncZDh3409jRHQ9nMY3_ysXJ-kzxypTdKIHamUeTnaUuLKZnh" alt="Karim">
+                                        <img id="ag-chat-avatar" src="https://ui-avatars.com/api/?name=UIU+User&background=1E3A8A&color=fff" alt="Partner">
                                     </div>
                                     <span class="status-dot"></span>
                                 </div>
                                 <div>
-                                    <p class="chat-title">Secure Chat with Karim</p>
-                                    <p class="chat-subtitle">LOCKED & ENCRYPTED</p>
+                                    <p class="chat-title" id="ag-chat-title">Secure Chat</p>
+                                    <p class="chat-subtitle">LOCKED &amp; ENCRYPTED</p>
                                 </div>
                             </div>
                             <button class="chat-menu-btn">
                                 <span class="material-symbols-outlined">more_vert</span>
                             </button>
                         </div>
-                        
-                        <!-- Messages -->
+
                         <div class="chat-messages" id="chatMessages">
                             <div class="chat-system-msg">
                                 <span class="system-tag">Agreement Formed</span>
                             </div>
-                            <p class="chat-hint">Please communicate here regarding the transfer.</p>
-                            
-                            <!-- Karim's Message -->
-                            <div class="msg-row">
-                                <div class="msg-avatar">
-                                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5nfAQKefhwZJFyrN6AJmjaHGskSOiWrTI3Cfc6SghLypBEfeA5PSde01fPcW5KndJVma8ZhVjBkc7LR6EFFsdja5Xb-vbs3zWXXW2xAe3M8sfMX1dc-kd32Qm4OsMJiKvVWOmajmYx1JZzTLdxkvIK-cPW1hlr2puGrPTH-31Cb_FkccBgfdL1g5J0Ox5jmEjHIjgstcBs2Th_geSKLRz0mjvU1wkShT5kOrgbqJz5ygMDGJpmWfp281nc-6bo2a7x4U0XQjXUQZu" alt="Karim">
-                                </div>
-                                <div class="msg-bubble">
-                                    Hey Rahim! Thanks for accepting. I need this urgently for registration.
-                                    <p class="msg-time">10:42 AM</p>
-                                </div>
-                            </div>
-                            
-                            <!-- My Message -->
-                            <div class="msg-row mine">
-                                <div class="msg-bubble">
-                                    No problem brother! I am sending it to your bKash number right now.
-                                    <p class="msg-time">10:45 AM</p>
-                                </div>
-                            </div>
+                            <p class="chat-hint" style="text-align:center;font-size:12px;color:#94a3b8;padding:8px;">
+                                Communicate here regarding the transfer.
+                            </p>
                         </div>
-                        
-                        <!-- Chat Input -->
+
                         <div class="chat-input-area">
                             <button class="chat-add-btn">
                                 <span class="material-symbols-outlined">add_circle</span>
@@ -251,13 +251,21 @@
                                 <span class="material-symbols-outlined">send</span>
                             </button>
                         </div>
-                        
+
                     </div>
                 </div>
 
             </div>
-
         </div>
+
+        <!-- No agreement state -->
+        <div id="ag-empty" style="display:none;padding:80px;text-align:center;color:#94a3b8;">
+            <span class="material-symbols-outlined" style="font-size:56px;display:block;margin-bottom:16px;">description</span>
+            <h3 style="color:#475569;margin-bottom:8px;">No Active Agreement</h3>
+            <p style="margin-bottom:20px;">You don't have any loan agreements yet.</p>
+            <a href="myloans.html" style="background:#1E3A8A;color:white;padding:10px 24px;border-radius:10px;text-decoration:none;font-weight:700;">Go to My Loans</a>
+        </div>
+
     </main>
 
     <script src="agreementscript.js"></script>

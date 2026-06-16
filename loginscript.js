@@ -1,115 +1,109 @@
 /* ================================================================
-   Login Page Script — UIU Friends Network
+   SCRIPT: UIU Friends Network — Login Page (API Integrated)
    ================================================================ */
 
 document.addEventListener('DOMContentLoaded', function () {
 
-  /* ── Element refs ── */
-  var form        = document.getElementById('loginForm');
-  var banner      = document.getElementById('loginBanner');
-  var signinBtn   = document.getElementById('signinBtn');
-  var btnText     = document.getElementById('signinBtnText');
-  var btnIcon     = document.getElementById('signinBtnIcon');
-  var toggleBtn   = document.getElementById('togglePassword');
-  var pwInput     = document.getElementById('password');
-  var eyeOpen     = document.getElementById('eyeOpen');
-  var eyeClosed   = document.getElementById('eyeClosed');
+    // ── 1. PASSWORD VISIBILITY TOGGLE ─────────────────────────────
+    var toggleButton  = document.getElementById('togglePassword');
+    var passwordInput = document.getElementById('password');
+    var eyeOpenIcon   = document.getElementById('eyeOpen');
+    var eyeClosedIcon = document.getElementById('eyeClosed');
+
+    if (toggleButton && passwordInput && eyeOpenIcon && eyeClosedIcon) {
+        toggleButton.addEventListener('click', function () {
+            var currentType = passwordInput.getAttribute('type');
+
+            if (currentType === 'password') {
+                passwordInput.setAttribute('type', 'text');
+                eyeOpenIcon.style.display   = 'none';
+                eyeClosedIcon.style.display = 'block';
+            } else {
+                passwordInput.setAttribute('type', 'password');
+                eyeOpenIcon.style.display   = 'block';
+                eyeClosedIcon.style.display = 'none';
+            }
+        });
+    }
 
 
-  /* ── 1. Password show/hide toggle ── */
-  if (toggleBtn) {
-    toggleBtn.addEventListener('click', function () {
-      var isPassword = pwInput.type === 'password';
-      pwInput.type            = isPassword ? 'text' : 'password';
-      eyeOpen.style.display   = isPassword ? 'none'  : 'block';
-      eyeClosed.style.display = isPassword ? 'block' : 'none';
-      toggleBtn.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
-    });
-  }
+    // ── 2. FORM SUBMISSION HANDLER ────────────────────────────────
+    var loginForm = document.getElementById('loginForm');
 
+    if (loginForm) {
+        loginForm.addEventListener('submit', function (event) {
+            event.preventDefault();
 
-  /* ── 2. Banner helper ──
-     Uses the #loginBanner div already in the HTML.
-     No dynamic element creation needed.
-  ── */
-  function showBanner(msg, type) {
-    if (!banner) return;
-    banner.textContent   = msg;
-    banner.className     = 'login-banner login-banner--' + type;
-    banner.style.display = 'block';
-    banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }
+            var studentId = document.getElementById('studentId').value.trim();
+            var password  = document.getElementById('password').value;
 
-  function hideBanner() {
-    if (!banner) return;
-    banner.style.display = 'none';
-  }
+            if (studentId === '' || password === '') {
+                alert('Please fill in both fields before signing in.');
+                return;
+            }
 
+            var submitBtn = loginForm.querySelector('.btn-signin');
+            var originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Signing In...';
 
-  /* ── 3. Button loading state ──
-     Keeps the SVG arrow intact instead of
-     overwriting innerHTML with textContent.
-  ── */
-  function setLoading(isLoading) {
-    signinBtn.disabled  = isLoading;
-    btnText.textContent = isLoading ? 'Signing in…' : 'Sign In';
-    btnIcon.style.display = isLoading ? 'none' : 'block';
-  }
+            // Send POST request to login.php
+            fetch('backend/api/auth/login.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    studentId: studentId,
+                    password: password
+                })
+            })
+            .then(response => {
+                return response.text().then(text => {
+                    var data;
+                    try {
+                        data = JSON.parse(text);
+                    } catch (e) {
+                        console.error('Invalid JSON response:', text);
+                        throw new Error('Server returned invalid JSON. Response was:\n' + text.substring(0, 300));
+                    }
+                    if (!response.ok) {
+                        throw new Error(data.message || 'Login failed');
+                    }
+                    return data;
+                });
+            })
+            .then(data => {
+                var user = data.data;
+                // Save user session in localStorage
+                localStorage.setItem('user_id', user.user_id);
+                localStorage.setItem('user_details', JSON.stringify(user));
+                // Fix #12: store CSRF token returned by server
+                if (data.data.csrf_token) {
+                    localStorage.setItem('csrf_token', data.data.csrf_token);
+                }
+                
+                // If they have student_id and email, set verified status
+                if (user.student_id && user.email) {
+                    localStorage.setItem('uiu_verified', 'true');
+                    localStorage.setItem('uiu_student_id', user.student_id);
+                    localStorage.setItem('uiu_student_email', user.email);
+                } else {
+                    localStorage.setItem('uiu_verified', 'false');
+                }
 
-
-  /* ── 4. Form submit → login.php ── */
-  if (form) {
-    form.addEventListener('submit', async function (e) {
-      e.preventDefault();
-      hideBanner();
-
-      var identifier = document.getElementById('studentId').value.trim();
-      var password   = pwInput.value;
-
-      /* Basic client-side check */
-      if (!identifier || !password) {
-        showBanner('Please fill in both fields.', 'error');
-        return;
-      }
-
-      setLoading(true);
-
-      try {
-        var fd = new FormData();
-        fd.append('identifier', identifier);
-        fd.append('password',   password);
-
-        var res  = await fetch('login.php', { method: 'POST', body: fd });
-
-        /* Safely parse JSON — PHP warnings can corrupt the response */
-        var text = await res.text();
-        var data;
-        try {
-          data = JSON.parse(text);
-        } catch (parseErr) {
-          console.error('Non-JSON response from login.php:', text);
-          showBanner('Unexpected server response. Please try again.', 'error');
-          return;
-        }
-
-        if (data.success) {
-          showBanner('Login successful! Redirecting…', 'success');
-          /* Short delay so the user sees the success message */
-          setTimeout(function () {
-            window.location.href = 'dashboard.html';
-          }, 800);
-          /* Don't re-enable the button — page is about to redirect */
-        } else {
-          showBanner(data.message || 'Login failed. Please try again.', 'error');
-          setLoading(false);
-        }
-
-      } catch (netErr) {
-        console.error('Network error:', netErr);
-        showBanner('Network error. Please check your connection.', 'error');
-        setLoading(false);
-      }
-    });
-  }
+                alert('Welcome back, ' + user.full_name + '!');
+                window.location.href = 'dashboard.html';
+            })
+            .catch(error => {
+                console.error('Login error:', error);
+                alert('Login failed: ' + error.message);
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            });
+        });
+    }
 
 });

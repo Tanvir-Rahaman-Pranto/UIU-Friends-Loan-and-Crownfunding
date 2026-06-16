@@ -8,57 +8,67 @@
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="myloansstyle.css"/>
+  <link rel="stylesheet" href="sidebar.css" />
 </head>
 <body>
   
   <div class="app-layout">
     
     <!-- Sidebar Navigation -->
-    <aside class="sidebar">
-      <div class="sidebar-brand">
-        <div class="logo-circle">
-          <span class="material-symbols-outlined">handshake</span>
-        </div>
-        <div class="brand-text">
-          <h1>UIU Friends</h1>
-          <p>Network</p>
+        <div class="sidebar">
+      <div class="logo">
+        <div class="logo-icon">UF</div>
+        <div>
+          <div class="logo-name">UIU Friends</div>
+          <div class="logo-sub">Loan &amp; Crowdfunding</div>
         </div>
       </div>
-      
-      <nav class="sidebar-nav">
-        <a class="nav-item" href="deshboard.html">
-          <span class="material-symbols-outlined">dashboard</span>
-          <span class="text">Dashboard</span>
-        </a>
-        <a class="nav-item" href="marketplace.html">
-          <span class="material-symbols-outlined">storefront</span>
-          <span class="text">Loan Marketplace</span>
-        </a>
-        <a class="nav-item" href="crowdfunding.html">
-          <span class="material-symbols-outlined">volunteer_activism</span>
-          <span class="text">Crowdfunding Hub</span>
-        </a>
-        <a class="nav-item active" href="myloans.html">
-          <span class="material-symbols-outlined">account_balance_wallet</span>
-          <span class="text">My Loans</span>
-        </a>
-        <a class="nav-item" href="profile.html">
-          <span class="material-symbols-outlined">settings</span>
-          <span class="text">Settings</span>
-        </a>
-      </nav>
-      
-      <div class="sidebar-bottom">
-        <a class="nav-item support-link" href="#">
+
+      <div class="nav-section">LOAN SYSTEM</div>
+      <a href="dashboard.html" class="nav-link">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span>Dashboard</span>
+      </a>
+      <a href="marketplace.html" class="nav-link">
+        <span class="material-symbols-outlined">storefront</span>
+        <span>Loan Marketplace</span>
+      </a>
+
+      <div class="nav-section">DONATION SYSTEM</div>
+      <a href="crowdfunding.html" class="nav-link">
+        <span class="material-symbols-outlined">volunteer_activism</span>
+        <span>Crowdfunding Hub</span>
+      </a>
+
+      <div class="nav-section">USER ACCOUNT</div>
+      <a href="myloans.html" class="nav-link active">
+        <span class="material-symbols-outlined">account_balance_wallet</span>
+        <span>My Loans</span>
+      </a>
+      <a href="agreement.html" class="nav-link">
+        <span class="material-symbols-outlined">handshake</span>
+        <span>Active Agreements</span>
+      </a>
+      <a href="reviews_trust.html" class="nav-link">
+        <span class="material-symbols-outlined">verified_user</span>
+        <span>Reviews & Trust Score</span>
+      </a>
+      <a href="profile.html" class="nav-link">
+        <span class="material-symbols-outlined">settings</span>
+        <span>Settings & Profile</span>
+      </a>
+
+      <div class="sidebar-footer">
+        <a href="#" class="nav-link">
           <span class="material-symbols-outlined">help</span>
-          <span class="text">Help & Support</span>
+          <span>Help &amp; Support</span>
         </a>
-        <a class="nav-item logout-link" href="login.html">
+        <a href="login.html" class="nav-link logout" onclick="if(typeof doLogout==='function'){doLogout(event);}">
           <span class="material-symbols-outlined">logout</span>
-          <span class="text">Logout</span>
+          <span>Logout</span>
         </a>
       </div>
-    </aside>
+    </div>
 
     <!-- Main Content -->
     <main class="main-content">
@@ -77,15 +87,15 @@
             <span class="notification-dot"></span>
           </button>
           
-          <div class="user-profile">
+          <a href="profile.html" class="user-profile" style="text-decoration: none; display: flex; align-items: center; gap: 10px; color: inherit;">
             <div class="user-details">
-              <p class="user-name">Rahim Hasan</p>
+              <p class="user-name">Loading...</p>
               <p class="user-trust" style="color: #eab308; font-size: 13px; letter-spacing: 1px;">★★★★★</p>
             </div>
             <div class="user-avatar-circle">
-              <img alt="User Profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhlCkHh5VSjaYEC53ZxE4HWA1BrQM-2YDShbY1PwUfyehiXJvzpPBhkaNNm2sqwkuOvx5WlKO26tuBAqakzZ0sMfvrK1cORstHD3xZnHkJeicyZhj9s7wcYjqUdZkWpMDysvN5Uvyb-H3QpiW476OqJMbvOopDSD2NX1IwhbZVapNTa99xu_6qeSPeuJqM8r6YlNrqkCMT2Hwvq8iUmSI8WuHNYFiQ5eDCZLkShuekguxPFeIz20F2N1Fn-6KMn0HmMPCgtXP97u8f"/>
+              <img alt="User Profile" src="https://ui-avatars.com/api/?name=UIU+User&background=1E3A8A&color=fff"/>
             </div>
-          </div>
+          </a>
         </div>
       </header>
 

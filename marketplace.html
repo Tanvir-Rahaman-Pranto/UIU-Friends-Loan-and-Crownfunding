@@ -5,52 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UIU Friends - Loan Marketplace</title>
     <link rel="stylesheet" href="marketplacestyle.css">
+  <link rel="stylesheet" href="sidebar.css" />
 </head>
 <body>
 
     <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <div class="sidebar-logo">
-                <span class="material-symbols-outlined">handshake</span>
-            </div>
-            <div class="sidebar-title">
-                <h1>UIU Friends</h1>
-                <p>Loan & Crowdfunding</p>
-            </div>
+        <div class="sidebar">
+      <div class="logo">
+        <div class="logo-icon">UF</div>
+        <div>
+          <div class="logo-name">UIU Friends</div>
+          <div class="logo-sub">Loan &amp; Crowdfunding</div>
         </div>
-        
-        <nav class="sidebar-nav">
-            <a href="deshboard.html" class="nav-link">
-                <span class="material-symbols-outlined">dashboard</span>
-                <span class="text">Dashboard</span>
-            </a>
-            <a href="marketplace.html" class="nav-link active">
-                <span class="material-symbols-outlined">storefront</span>
-                <span class="text">Loan Marketplace</span>
-            </a>
-            <a href="crowdfunding.html" class="nav-link">
-                <span class="material-symbols-outlined">payments</span>
-                <span class="text">Crowdfunding</span>
-            </a>
-            <a href="myloans.html" class="nav-link">
-                <span class="material-symbols-outlined">receipt_long</span>
-                <span class="text">My Loans</span>
-            </a>
-            <a href="profile.html" class="nav-link">
-                <span class="material-symbols-outlined">settings</span>
-                <span class="text">Settings</span>
-            </a>
-        </nav>
-        
-        <div class="trust-score-box">
-            <p class="trust-score-title">Personal Trust Score</p>
-            <div class="trust-score-value">
-                <span class="score">★★★★★</span>
-                <span class="material-symbols-outlined">verified</span>
-            </div>
-        </div>
-    </aside>
+      </div>
+
+      <div class="nav-section">LOAN SYSTEM</div>
+      <a href="dashboard.html" class="nav-link">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span>Dashboard</span>
+      </a>
+      <a href="marketplace.html" class="nav-link active">
+        <span class="material-symbols-outlined">storefront</span>
+        <span>Loan Marketplace</span>
+      </a>
+
+      <div class="nav-section">DONATION SYSTEM</div>
+      <a href="crowdfunding.html" class="nav-link">
+        <span class="material-symbols-outlined">volunteer_activism</span>
+        <span>Crowdfunding Hub</span>
+      </a>
+
+      <div class="nav-section">USER ACCOUNT</div>
+      <a href="myloans.html" class="nav-link">
+        <span class="material-symbols-outlined">account_balance_wallet</span>
+        <span>My Loans</span>
+      </a>
+      <a href="agreement.html" class="nav-link">
+        <span class="material-symbols-outlined">handshake</span>
+        <span>Active Agreements</span>
+      </a>
+      <a href="reviews_trust.html" class="nav-link">
+        <span class="material-symbols-outlined">verified_user</span>
+        <span>Reviews & Trust Score</span>
+      </a>
+      <a href="profile.html" class="nav-link">
+        <span class="material-symbols-outlined">settings</span>
+        <span>Settings & Profile</span>
+      </a>
+
+      <div class="sidebar-footer">
+        <a href="#" class="nav-link">
+          <span class="material-symbols-outlined">help</span>
+          <span>Help &amp; Support</span>
+        </a>
+        <a href="login.html" class="nav-link logout" onclick="if(typeof doLogout==='function'){doLogout(event);}">
+          <span class="material-symbols-outlined">logout</span>
+          <span>Logout</span>
+        </a>
+      </div>
+    </div>
 
     <!-- Main Content -->
     <main class="main-content">
@@ -59,7 +72,7 @@
         <header class="top-navbar">
             <div class="search-area">
                 <span class="material-symbols-outlined">search</span>
-                <input type="text" class="search-input" placeholder="Search loans or friends...">
+                <input type="text" class="search-input search-box" id="mp-search-input" placeholder="Search loans or friends...">
             </div>
             
             <div class="user-area">
@@ -70,15 +83,16 @@
                 
                 <span id="mp-verification-badge" class="mp-badge unverified">⚠ Unverified</span>
 
-                <div class="user-profile">
+                <a href="profile.html" class="user-profile" style="text-decoration: none; display: flex; align-items: center; gap: 8px; color: inherit;">
                     <div class="user-info">
-                        <p class="user-name">Rahim Hasan</p>
-                        <p class="user-trust">Trust Score: ★★★★★</p>
+                        <p class="user-name" id="mp-user-name">Loading...</p>
+                        <p class="user-trust" id="mp-user-trust">Trust Score: —</p>
                     </div>
-                    <div class="user-avatar">
-                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfPUhSeZ5NAWJpTIxUqTFpuWrRSPG5v8iSsaFP6LGAfp0TXPPjkmPecqjuATV9245VcfSFK2ymWjM5hhQ5rbCa0IaNLQgKtP3LQ2D-VYiHJUYL1saXay-w11muJHi7EW-3Su6XolW_KMBuLMHfEYg0neE7iu5hQokcfUcrr0Dix65Z-YcXaJnf6C85BH1-TktKoFtwtzNmIhesW-H4sv5tvOaC1bSVO3m7RrKZn8MRmX6OiuZ31wpZESMVxkEkaoW8gHPp_KaXRePK" alt="Profile">
+                    <div class="user-avatar" id="mp-user-avatar" style="width:36px;height:36px;border-radius:50%;overflow:hidden;background:#e2e8f0;display:flex;align-items:center;justify-content:center;">
+                        <img id="mp-user-avatar-img" src="" alt="Profile" style="width:100%;height:100%;object-fit:cover;display:none;">
+                        <span id="mp-user-avatar-initials" style="font-size:13px;font-weight:700;color:#475569;"></span>
                     </div>
-                </div>
+                </a>
             </div>
         </header>
 
@@ -101,16 +115,17 @@
             <div class="filter-section">
                 <div class="filter-row">
                     <span class="filter-label">Sort by:</span>
-                    <button class="sort-btn active">Most Urgent</button>
-                    <button class="sort-btn">Lowest Interest</button>
-                    <button class="sort-btn">Highest Trust Score</button>
+                    <button class="sort-btn active" onclick="setSort(this,'urgent')">Most Urgent</button>
+                    <button class="sort-btn" onclick="setSort(this,'interest')">Lowest Interest</button>
+                    <button class="sort-btn" onclick="setSort(this,'trust')">Highest Trust Score</button>
                 </div>
                 <div class="filter-row">
                     <span class="filter-label">Categories:</span>
                     <div class="category-tags">
-                        <span class="category-tag active">Tuition</span>
-                        <span class="category-tag">Medical</span>
-                        <span class="category-tag">Emergency</span>
+                        <span class="category-tag active" onclick="setCategory(this,'')">All</span>
+                        <span class="category-tag" onclick="setCategory(this,'Tuition Fee')">Tuition</span>
+                        <span class="category-tag" onclick="setCategory(this,'Medical Emergency')">Medical</span>
+                        <span class="category-tag" onclick="setCategory(this,'Emergency')">Emergency</span>
                     </div>
                 </div>
             </div>
@@ -316,7 +331,7 @@
                             Max Acceptable Interest Rate (%)
                             <span class="material-symbols-outlined loan-help-icon" title="Lenders will bid below this rate.">help_outline</span>
                         </label>
-                        <input type="number" class="loan-input" placeholder="e.g., 5" />
+                        <input type="number" id="m-loan-max-interest" class="loan-input" placeholder="e.g., 5" min="0" max="20" step="0.1" />
                     </div>
                 </div>
 

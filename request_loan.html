@@ -12,61 +12,67 @@
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="request_loan.css" />
+  <link rel="stylesheet" href="sidebar.css" />
 </head>
 <body>
 
 <div class="wrapper">
 
   <!-- ===== SIDEBAR ===== -->
-  <aside class="sidebar">
-    <div class="sidebar-logo">
-      <div class="logo-icon-box">
-        <span class="material-symbols-outlined">handshake</span>
+      <div class="sidebar">
+      <div class="logo">
+        <div class="logo-icon">UF</div>
+        <div>
+          <div class="logo-name">UIU Friends</div>
+          <div class="logo-sub">Loan &amp; Crowdfunding</div>
+        </div>
       </div>
-      <div>
-        <h1 class="logo-title">UIU Friends</h1>
-        <p class="logo-sub">Loan &amp; Crowdfunding</p>
-      </div>
-    </div>
 
-    <nav class="sidebar-nav">
-      <a class="nav-link" href="deshboard.html">
+      <div class="nav-section">LOAN SYSTEM</div>
+      <a href="dashboard.html" class="nav-link">
         <span class="material-symbols-outlined">dashboard</span>
         <span>Dashboard</span>
       </a>
-      <a class="nav-link active" href="marketplace.html">
+      <a href="marketplace.html" class="nav-link active">
         <span class="material-symbols-outlined">storefront</span>
         <span>Loan Marketplace</span>
       </a>
-      <a class="nav-link" href="crowdfunding.html">
-        <span class="material-symbols-outlined">payments</span>
-        <span>Crowdfunding</span>
+
+      <div class="nav-section">DONATION SYSTEM</div>
+      <a href="crowdfunding.html" class="nav-link">
+        <span class="material-symbols-outlined">volunteer_activism</span>
+        <span>Crowdfunding Hub</span>
       </a>
-      <a class="nav-link" href="myloans.html">
-        <span class="material-symbols-outlined">receipt_long</span>
+
+      <div class="nav-section">USER ACCOUNT</div>
+      <a href="myloans.html" class="nav-link">
+        <span class="material-symbols-outlined">account_balance_wallet</span>
         <span>My Loans</span>
       </a>
-      <a class="nav-link" href="profile.html">
-        <span class="material-symbols-outlined">settings</span>
-        <span>Settings</span>
+      <a href="agreement.html" class="nav-link">
+        <span class="material-symbols-outlined">handshake</span>
+        <span>Active Agreements</span>
       </a>
-    </nav>
+      <a href="reviews_trust.html" class="nav-link">
+        <span class="material-symbols-outlined">verified_user</span>
+        <span>Reviews & Trust Score</span>
+      </a>
+      <a href="profile.html" class="nav-link">
+        <span class="material-symbols-outlined">settings</span>
+        <span>Settings & Profile</span>
+      </a>
 
-    <!-- Trust Score -->
-    <div class="sidebar-trust">
-      <p class="trust-small-label">Personal Trust Score</p>
-      <div class="trust-row">
-        <span class="trust-stars-row">
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-        </span>
-        <span class="material-symbols-outlined trust-verified">verified</span>
+      <div class="sidebar-footer">
+        <a href="#" class="nav-link">
+          <span class="material-symbols-outlined">help</span>
+          <span>Help &amp; Support</span>
+        </a>
+        <a href="login.html" class="nav-link logout" onclick="if(typeof doLogout==='function'){doLogout(event);}">
+          <span class="material-symbols-outlined">logout</span>
+          <span>Logout</span>
+        </a>
       </div>
     </div>
-  </aside>
 
   <!-- ===== BLURRED BACKGROUND MAIN (behind modal) ===== -->
   <main class="main-blur">
@@ -83,12 +89,12 @@
         </button>
         <div class="user-area">
           <div class="user-text">
-            <p class="user-name">Rahim Hasan</p>
+            <p class="user-name">Loading...</p>
             <p class="user-score">
               Trust: <span class="star filled">★★★★★</span>
             </p>
           </div>
-          <img class="user-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfPUhSeZ5NAWJpTIxUqTFpuWrRSPG5v8iSsaFP6LGAfp0TXPPjkmPecqjuATV9245VcfSFK2ymWjM5hhQ5rbCa0IaNLQgKtP3LQ2D-VYiHJUYL1saXay-w11muJHi7EW-3Su6XolW_KMBuLMHfEYg0neE7iu5hQokcfUcrr0Dix65Z-YcXaJnf6C85BH1-TktKoFtwtzNmIhesW-H4sv5tvOaC1bSVO3m7RrKZn8MRmX6OiuZ31wpZESMVxkEkaoW8gHPp_KaXRePK" alt="User Profile" />
+          <img class="user-avatar" src="https://ui-avatars.com/api/?name=UIU+User&background=1E3A8A&color=fff" alt="User Profile" />
         </div>
       </div>
     </header>

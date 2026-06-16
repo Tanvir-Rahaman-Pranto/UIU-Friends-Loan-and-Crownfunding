@@ -1,12 +1,82 @@
 // ============================================================
-//  start_campaign.js  –  UIU Friends Network
+//  start_campaign.js  –  UIU Friends Network (API Active)
 // ============================================================
 
-// Simulated array of uploaded files (starts with preloaded ones in HTML)
-var uploadedFiles = [
-  { name: 'medical_report.pdf', type: 'pdf' },
-  { name: 'hospital_bill.jpg', type: 'image' }
-];
+// Global cache of actual File objects selected by the user
+var realUploadedFiles = [];
+
+// Helper for fetching with Auth headers
+function fetchWithAuth(url, options = {}) {
+  var method = (options.method || 'GET').toUpperCase();
+  if (!options.headers) options.headers = {};
+  // Fix #12: send CSRF token for all state-changing requests
+  if (['POST', 'PUT', 'DELETE', 'PATCH'].includes(method)) {
+    var csrf = localStorage.getItem('csrf_token') || '';
+    options.headers['X-CSRF-Token'] = csrf;
+  }
+  // Fix #5: removed X-User-ID header (was spoofable) — session cookie handles auth
+  options.credentials = 'include'; // Fix #6: send session cookie cross-origin
+  return fetch(url, options).then(response => {
+    return response.json().then(data => {
+      if (!response.ok) {
+        throw new Error(data.message || 'API request failed');
+      }
+      return data;
+    });
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Sync profile header
+  syncUserProfile();
+  // Load real trust score into navbar badge
+  loadTrustScore();
+});
+
+// Fetch real trust score from API and populate the navbar badge
+function loadTrustScore() {
+  fetchWithAuth('backend/api/user/reviews.php')
+    .then(res => {
+      var data = res.data;
+      var el = document.getElementById('nav-trust-score');
+      if (!el) return;
+
+      // Render filled/empty stars from avg_rating
+      var stars = '';
+      var rounded = Math.round(data.avg_rating || 0);
+      for (var i = 0; i < 5; i++) {
+        stars += i < rounded ? '★' : '☆';
+      }
+      el.textContent = stars;
+    })
+    .catch(function () {
+      // Leave the placeholder if the call fails
+    });
+}
+
+function syncUserProfile() {
+  fetchWithAuth('backend/api/auth/me.php')
+    .then(res => {
+      var user = res.data;
+      var nameEl = document.querySelector('.leading-none');
+      if (nameEl) nameEl.textContent = user.full_name;
+
+      var avatarImg = document.querySelector('.ring-2 img');
+      if (avatarImg) {
+        if (user.profile_photo) {
+          avatarImg.src = 'uploads/profiles/' + user.profile_photo;
+        } else {
+          avatarImg.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.full_name) + '&background=1E3A8A&color=fff';
+        }
+      }
+    })
+    .catch(err => {
+      console.log('Not logged in:', err.message);
+      if (!localStorage.getItem('user_id')) {
+        window.location.href = 'login.html';
+      }
+    });
+}
 
 // ---- Format Text in Story Editor ----
 function formatText(style) {
@@ -114,8 +184,8 @@ function addFilesToList(files) {
 
     // Prevent duplicate entries
     var exists = false;
-    for (var j = 0; j < uploadedFiles.length; j++) {
-      if (uploadedFiles[j].name === file.name) {
+    for (var j = 0; j < realUploadedFiles.length; j++) {
+      if (realUploadedFiles[j].name === file.name) {
         exists = true;
         break;
       }
@@ -126,20 +196,23 @@ function addFilesToList(files) {
       continue;
     }
 
-    // Save to list
-    uploadedFiles.push({ name: file.name, type: isPdf ? 'pdf' : 'image' });
+    // Save actual File object to list
+    realUploadedFiles.push(file);
 
     // Create chip HTML
     var chip = document.createElement('div');
-    chip.className = 'file-chip';
-    chip.id = 'file-' + file.name;
-    chip.innerHTML = `
-      <span class="material-symbols-outlined file-icon">${iconName}</span>
-      <span class="file-name">${file.name}</span>
-      <button class="file-remove" onclick="removeFile('${file.name}')">
-        <span class="material-symbols-outlined">close</span>
+    chip.className = 'file-chip flex items-center gap-2 bg-slate-100 px-3 py-2 rounded-xl border border-slate-200 group';
+    chip.id = 'file-' + file.name.replace(/[^a-zA-Z0-9]/g, '_');
+    
+    // Let's build the HTML carefully
+    var chipContent = `
+      <span class="material-symbols-outlined text-slate-400 text-lg">${iconName}</span>
+      <span class="text-sm font-medium text-slate-700">${file.name}</span>
+      <button type="button" class="text-slate-400 hover:text-red-500 ml-auto" onclick="removeFile('${file.name}')">
+        <span class="material-symbols-outlined text-lg">close</span>
       </button>
     `;
+    chip.innerHTML = chipContent;
     listContainer.appendChild(chip);
   }
 }
@@ -147,12 +220,13 @@ function addFilesToList(files) {
 // Remove File Chip
 function removeFile(fileName) {
   // Remove from array
-  uploadedFiles = uploadedFiles.filter(function (file) {
+  realUploadedFiles = realUploadedFiles.filter(function (file) {
     return file.name !== fileName;
   });
 
   // Remove from DOM
-  var element = document.getElementById('file-' + fileName);
+  var safeId = 'file-' + fileName.replace(/[^a-zA-Z0-9]/g, '_');
+  var element = document.getElementById(safeId);
   if (element) {
     element.parentNode.removeChild(element);
   }
@@ -163,11 +237,12 @@ function goBack() {
   window.history.back();
 }
 
-// ---- Footer Nav Action - Next Step ----
+// ---- Footer Nav Action - Next Step (Real Submit) ----
 function goNext() {
   var title = document.getElementById('campaign-title').value.trim();
-  var amount = document.getElementById('target-amount').value.trim();
+  var amount = document.getElementById('target-amount').value.trim().replace(/,/g, '');
   var story = document.getElementById('story-text').value.trim();
+  var selectCategory = document.getElementById('campaign-category').value;
 
   if (!title) {
     alert("Please enter a Campaign Title.");
@@ -175,7 +250,7 @@ function goNext() {
     return;
   }
 
-  if (!amount || isNaN(amount.replace(/,/g, '')) || parseFloat(amount.replace(/,/g, '')) <= 0) {
+  if (!amount || isNaN(amount) || parseFloat(amount) <= 0) {
     alert("Please enter a valid Target Amount.");
     document.getElementById('target-amount').focus();
     return;
@@ -187,21 +262,73 @@ function goNext() {
     return;
   }
 
-  if (uploadedFiles.length === 0) {
-    alert("Please upload at least one Proof of Necessity verification document.");
+  if (realUploadedFiles.length === 0) {
+    alert("Please upload at least one verification document.");
     return;
   }
 
-  // Visual success feedback
+  // Map category select option to DB category enum
+  var dbCategory = 'other';
+  var catLower = selectCategory.toLowerCase();
+  if (catLower.includes('medical') || catLower.includes('surgery')) {
+    dbCategory = 'medical';
+  } else if (catLower.includes('education') || catLower.includes('tuition')) {
+    dbCategory = 'education';
+  } else if (catLower.includes('project')) {
+    dbCategory = 'project';
+  } else if (catLower.includes('general') || catLower.includes('charity')) {
+    dbCategory = 'emergency';
+  }
+
+  // Set default deadline 30 days in the future
+  var targetDate = new Date();
+  targetDate.setDate(targetDate.getDate() + 30);
+  var targetDateStr = targetDate.toISOString().split('T')[0] + ' 23:59:59';
+
+  // Build FormData
+  var formData = new FormData();
+  formData.append('title', title);
+  formData.append('target_amount', parseFloat(amount));
+  formData.append('description', story);
+  formData.append('category', dbCategory);
+  formData.append('deadline', targetDateStr);
+
+  // Cover image is first file, proof is second file (or same if only one)
+  formData.append('cover_image', realUploadedFiles[0]);
+  formData.append('proof_document', realUploadedFiles[1] || realUploadedFiles[0]);
+
+  // Visual feedback
   var nextBtn = document.getElementById('next-btn');
-  nextBtn.innerHTML = '<span>Processing...</span> <span class="material-symbols-outlined">hourglass_empty</span>';
+  var originalHTML = nextBtn.innerHTML;
+  nextBtn.innerHTML = '<span>Launching Campaign...</span> <span class="material-symbols-outlined">hourglass_empty</span>';
+  nextBtn.disabled = true;
   nextBtn.style.background = '#10B981';
 
-  setTimeout(function() {
-    alert("Campaign basics, story, and proof verified successfully! Advancing to Step 3: Review & Submit.");
-    nextBtn.innerHTML = '<span>Next Step: Review</span> <span class="material-symbols-outlined">arrow_forward</span>';
+  // Send request to campaigns.php
+  var userId = localStorage.getItem('user_id') || '';
+  fetch('backend/api/campaign/campaigns.php', {
+    method: 'POST',
+    headers: {
+      'X-User-ID': userId
+    },
+    body: formData
+  })
+  .then(response => {
+    return response.json().then(data => {
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to start campaign.');
+      }
+      return data;
+    });
+  })
+  .then(data => {
+    alert("Congratulations! Your crowdfunding campaign has been launched successfully.");
+    window.location.href = "crowdfunding.html";
+  })
+  .catch(err => {
+    alert("Campaign Creation Failed: " + err.message);
+    nextBtn.innerHTML = originalHTML;
     nextBtn.style.background = '';
-    // Typically here you would redirect or go to the next step
-    // window.location.href = "campaign_review.html";
-  }, 1000);
+    nextBtn.disabled = false;
+  });
 }

@@ -11,81 +11,67 @@
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="my_loans_tracker.css" />
+  <link rel="stylesheet" href="sidebar.css" />
 </head>
 <body>
 
 <div class="wrapper">
 
   <!-- ===== SIDEBAR ===== -->
-  <aside class="sidebar">
-    <div class="sidebar-top">
-
-      <!-- Logo -->
+      <div class="sidebar">
       <div class="logo">
-        <div class="logo-icon">
-          <span class="material-symbols-outlined">account_balance_wallet</span>
-        </div>
+        <div class="logo-icon">UF</div>
         <div>
-          <h1 class="logo-title">UIU Friends</h1>
-          <p class="logo-sub">Loan &amp; Crowdfund</p>
+          <div class="logo-name">UIU Friends</div>
+          <div class="logo-sub">Loan &amp; Crowdfunding</div>
         </div>
       </div>
 
-      <!-- Navigation -->
-      <nav class="nav">
-        <a class="nav-item" href="deshboard.html">
-          <span class="material-symbols-outlined">dashboard</span>
-          <span>Dashboard</span>
-        </a>
-        <a class="nav-item" href="marketplace.html">
-          <span class="material-symbols-outlined">storefront</span>
-          <span>Loan Marketplace</span>
-        </a>
-        <a class="nav-item" href="crowdfunding.html">
-          <span class="material-symbols-outlined">groups</span>
-          <span>Crowdfunding</span>
-        </a>
-        <a class="nav-item active" href="myloans.html">
-          <span class="material-symbols-outlined">receipt_long</span>
-          <span>My Loans</span>
-        </a>
-        <a class="nav-item" href="profile.html">
-          <span class="material-symbols-outlined">settings</span>
-          <span>Settings</span>
-        </a>
-      </nav>
-    </div>
+      <div class="nav-section">LOAN SYSTEM</div>
+      <a href="dashboard.html" class="nav-link">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span>Dashboard</span>
+      </a>
+      <a href="marketplace.html" class="nav-link">
+        <span class="material-symbols-outlined">storefront</span>
+        <span>Loan Marketplace</span>
+      </a>
 
-    <div class="sidebar-bottom">
-      <!-- Trust Score Card -->
-      <div class="trust-card">
-        <div class="trust-header">
-          <span class="trust-label">My Trust Score</span>
-          <span class="trust-badge">EXCELLENT</span>
-        </div>
-        <div class="trust-stars">
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="material-symbols-outlined trust-icon">verified_user</span>
-        </div>
-        <div class="trust-bar-bg">
-          <div class="trust-bar-fill" style="width: 98%"></div>
-        </div>
-      </div>
+      <div class="nav-section">DONATION SYSTEM</div>
+      <a href="crowdfunding.html" class="nav-link">
+        <span class="material-symbols-outlined">volunteer_activism</span>
+        <span>Crowdfunding Hub</span>
+      </a>
 
-      <!-- User Profile -->
-      <div class="user-profile">
-        <img class="avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoUWMaq-6qAyxspsOzae0axKZ6bMrxZB3oHcu0sNIgCd0UB50ySp4e2PYW0Aw1P0CFaQr9sWS4Zv_5ASs8-4vb_iDnS0F9_DtCyMl3eJi8MAKF_cvXHHVeEarFrX6nW8XNyrHHWkllewZxMhXH9Od9Pkox_Cup6cjN9phfbJ9MJfnV4dvEYV7FWI3SJWznHYeRUIoEffYkMY6BBte5qwyqspBE0nqklUxYiLLkY5x_e76oIqPTKbAcsXYApUt2Wf9BALsbImGi16l3" alt="User Profile" />
-        <div>
-          <span class="user-name">Sakib Ahmed</span>
-          <span class="user-id">ID: 011 201 000</span>
-        </div>
+      <div class="nav-section">USER ACCOUNT</div>
+      <a href="myloans.html" class="nav-link active">
+        <span class="material-symbols-outlined">account_balance_wallet</span>
+        <span>My Loans</span>
+      </a>
+      <a href="agreement.html" class="nav-link">
+        <span class="material-symbols-outlined">handshake</span>
+        <span>Active Agreements</span>
+      </a>
+      <a href="reviews_trust.html" class="nav-link">
+        <span class="material-symbols-outlined">verified_user</span>
+        <span>Reviews & Trust Score</span>
+      </a>
+      <a href="profile.html" class="nav-link">
+        <span class="material-symbols-outlined">settings</span>
+        <span>Settings & Profile</span>
+      </a>
+
+      <div class="sidebar-footer">
+        <a href="#" class="nav-link">
+          <span class="material-symbols-outlined">help</span>
+          <span>Help &amp; Support</span>
+        </a>
+        <a href="login.html" class="nav-link logout" onclick="if(typeof doLogout==='function'){doLogout(event);}">
+          <span class="material-symbols-outlined">logout</span>
+          <span>Logout</span>
+        </a>
       </div>
     </div>
-  </aside>
 
   <!-- ===== MAIN CONTENT ===== -->
   <main class="main">
@@ -125,136 +111,45 @@
       <!-- ===== BORROWED TAB ===== -->
       <div id="view-borrowed">
 
-        <!-- Stats -->
+        <!-- Stats (dynamic — populated by JS) -->
         <div class="stats-grid">
           <div class="stat-card">
             <p class="stat-label">Total Outstanding Debt</p>
-            <h3 class="stat-value blue">10,000 BDT</h3>
+            <h3 class="stat-value blue" id="stat-total-debt">— BDT</h3>
             <div class="stat-footer green">
               <span class="material-symbols-outlined">trending_down</span>
-              <span>Reduced by 5,000 this month</span>
+              <span id="stat-debt-footer">Loading...</span>
             </div>
           </div>
           <div class="stat-card accent-border">
             <p class="stat-label">Next Installment Due</p>
-            <h3 class="stat-value">2,500 BDT</h3>
-            <p class="stat-footer orange">
+            <h3 class="stat-value" id="stat-next-due">— BDT</h3>
+            <p class="stat-footer orange" id="stat-due-footer">
               <span class="material-symbols-outlined">schedule</span>
-              IN 5 DAYS (NOV 1)
+              Loading...
             </p>
           </div>
           <div class="stat-card">
             <p class="stat-label">Loans Successfully Paid</p>
             <div class="stat-value-row">
-              <h3 class="stat-value">3</h3>
+              <h3 class="stat-value" id="stat-paid-count">—</h3>
               <span class="material-symbols-outlined green-icon">check_circle</span>
             </div>
             <div class="stat-footer muted">
-              <span>Last paid: Oct 1, 2023</span>
+              <span id="stat-paid-footer">Loading...</span>
             </div>
           </div>
         </div>
 
-        <!-- Active Loan Tracker -->
-        <div class="loan-card">
-          <div class="loan-card-header">
-            <div class="loan-card-left">
-              <div class="loan-icon-box">
-                <span class="material-symbols-outlined">school</span>
-              </div>
-              <div>
-                <div class="loan-title-row">
-                  <h4 class="loan-title">Tuition Fee Loan</h4>
-                  <span class="badge active-badge">Active</span>
-                </div>
-                <p class="loan-meta">
-                  Lender: <strong>Arif Mahmud</strong>
-                  <span class="trust-inline">
-                    <span class="star filled">★</span>
-                    <span class="star filled">★</span>
-                    <span class="star filled">★</span>
-                    <span class="star filled">★</span>
-                    <span class="star filled">★</span>
-                  </span>
-                  • Interest: 4%
-                </p>
-              </div>
-            </div>
-            <div class="loan-card-right">
-              <div class="loan-remaining">
-                <p class="remaining-label">Remaining</p>
-                <p class="remaining-value">10,000 BDT</p>
-              </div>
-              <button class="pay-btn">
-                Pay Installment Now
-                <span class="material-symbols-outlined">arrow_forward</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Progress -->
-          <div class="loan-card-body">
-            <div class="progress-section">
-              <div class="progress-labels">
-                <span class="green-text">Paid: 5,000 BDT</span>
-                <span class="muted-text">Total: 15,000 BDT</span>
-              </div>
-              <div class="progress-bar-bg">
-                <div class="progress-bar-fill" style="width: 33.3%"></div>
-              </div>
-            </div>
-
-            <!-- Installment Timeline -->
-            <h5 class="timeline-heading">Installment Timeline</h5>
-            <div class="timeline">
-
-              <!-- Phase 1 - Paid -->
-              <div class="phase phase-done">
-                <div class="phase-icon green-bg">
-                  <span class="material-symbols-outlined">check</span>
-                </div>
-                <div class="phase-info">
-                  <div class="phase-row">
-                    <p class="phase-name">Phase 1: 5,000 BDT</p>
-                    <span class="phase-status green-text">PAID ON OCT 1</span>
-                  </div>
-                  <p class="phase-txn">Transaction ID: TXN_01122345</p>
-                </div>
-              </div>
-
-              <!-- Phase 2 - Due -->
-              <div class="phase phase-due">
-                <div class="phase-icon orange-bg">
-                  <span class="material-symbols-outlined">priority_high</span>
-                </div>
-                <div class="phase-info">
-                  <div class="phase-row">
-                    <p class="phase-name">Phase 2: 5,000 BDT</p>
-                    <span class="phase-status orange-text">DUE IN 5 DAYS (NOV 1)</span>
-                  </div>
-                  <p class="phase-txn">Upcoming auto-deduction or manual payment</p>
-                </div>
-              </div>
-
-              <!-- Phase 3 - Locked -->
-              <div class="phase phase-locked">
-                <div class="phase-icon grey-bg">
-                  <span class="material-symbols-outlined">lock</span>
-                </div>
-                <div class="phase-info">
-                  <div class="phase-row">
-                    <p class="phase-name">Phase 3: 5,000 BDT</p>
-                    <span class="phase-status muted-text">DUE ON DEC 1</span>
-                  </div>
-                  <p class="phase-txn">Available for payment after Phase 2</p>
-                </div>
-              </div>
-
-            </div>
+        <!-- Active Loan Cards (dynamic) -->
+        <div id="myloans-active-container">
+          <div class="loan-card" style="padding:28px; text-align:center; color:#94a3b8; font-size:14px;">
+            <span class="material-symbols-outlined" style="font-size:40px; display:block; margin-bottom:10px;">hourglass_empty</span>
+            Loading your loans...
           </div>
         </div>
 
-        <!-- Secondary Lists -->
+        <!-- Secondary Lists (dynamic) -->
         <div class="secondary-grid">
 
           <!-- Pending Requests -->
@@ -262,25 +157,11 @@
             <div class="list-header">
               <h4 class="list-title">
                 Pending Loan Requests
-                <span class="count-badge blue-badge">1</span>
+                <span class="count-badge blue-badge" id="pending-count">0</span>
               </h4>
             </div>
-            <div class="list-card">
-              <div class="list-item-row">
-                <div class="list-item-left">
-                  <div class="list-icon">
-                    <span class="material-symbols-outlined">description</span>
-                  </div>
-                  <div>
-                    <p class="item-title">Laptop Purchase Loan</p>
-                    <p class="item-meta">Requested: 2,000 BDT • 2 Months term</p>
-                    <span class="status-badge yellow-badge">Awaiting Approval</span>
-                  </div>
-                </div>
-                <button class="cancel-btn">
-                  <span class="material-symbols-outlined">cancel</span>
-                </button>
-              </div>
+            <div class="list-card" id="myloans-pending-container">
+              <p style="padding:16px; text-align:center; color:#94a3b8; font-size:13px;">Loading...</p>
             </div>
           </div>
 
@@ -289,31 +170,11 @@
             <div class="list-header">
               <h4 class="list-title">
                 Completed Loans
-                <span class="count-badge grey-badge">3</span>
+                <span class="count-badge grey-badge" id="completed-count">0</span>
               </h4>
-              <button class="view-all-btn">View All History</button>
             </div>
-            <div class="list-card">
-              <div class="completed-item">
-                <div class="list-item-left">
-                  <span class="material-symbols-outlined green-icon">verified</span>
-                  <div>
-                    <p class="item-title">Library Fine Loan</p>
-                    <p class="item-meta">Paid on Sept 15 • 500 BDT</p>
-                  </div>
-                </div>
-                <span class="status-badge green-badge">Cleared</span>
-              </div>
-              <div class="completed-item">
-                <div class="list-item-left">
-                  <span class="material-symbols-outlined green-icon">verified</span>
-                  <div>
-                    <p class="item-title">Workshop Registration</p>
-                    <p class="item-meta">Paid on Aug 28 • 1,200 BDT</p>
-                  </div>
-                </div>
-                <span class="status-badge green-badge">Cleared</span>
-              </div>
+            <div class="list-card" id="myloans-completed-container">
+              <p style="padding:16px; text-align:center; color:#94a3b8; font-size:13px;">Loading...</p>
             </div>
           </div>
 
@@ -323,109 +184,41 @@
       <!-- ===== LENT TAB ===== -->
       <div id="view-lent" style="display:none;">
 
-        <!-- Stats -->
+        <!-- Stats (dynamic) -->
         <div class="stats-grid">
           <div class="stat-card">
             <p class="stat-label">Total Amount Lent</p>
-            <h3 class="stat-value blue">8,500 BDT</h3>
+            <h3 class="stat-value blue" id="stat-total-lent">— BDT</h3>
             <div class="stat-footer green">
               <span class="material-symbols-outlined">trending_up</span>
-              <span>2 active loans out</span>
+              <span id="stat-lent-footer">Loading...</span>
             </div>
           </div>
           <div class="stat-card accent-border">
             <p class="stat-label">Expected Returns</p>
-            <h3 class="stat-value">8,840 BDT</h3>
+            <h3 class="stat-value" id="stat-expected-return">— BDT</h3>
             <p class="stat-footer green">
               <span class="material-symbols-outlined">payments</span>
-              Including 4% interest
+              Including interest
             </p>
           </div>
           <div class="stat-card">
             <p class="stat-label">Loans Recovered</p>
             <div class="stat-value-row">
-              <h3 class="stat-value">2</h3>
+              <h3 class="stat-value" id="stat-recovered-count">—</h3>
               <span class="material-symbols-outlined green-icon">check_circle</span>
             </div>
             <div class="stat-footer muted">
-              <span>Last recovered: Sep 20, 2023</span>
+              <span id="stat-recovered-footer">Loading...</span>
             </div>
           </div>
         </div>
 
-        <!-- Active Lending -->
-        <div class="loan-card">
-          <div class="loan-card-header">
-            <div class="loan-card-left">
-              <div class="loan-icon-box">
-                <span class="material-symbols-outlined">person</span>
-              </div>
-              <div>
-                <div class="loan-title-row">
-                  <h4 class="loan-title">Loan to Rahim Hossain</h4>
-                  <span class="badge active-badge">Active</span>
-                </div>
-                <p class="loan-meta">
-                  Borrower Trust:
-                  <span class="trust-inline">
-                    <span class="star filled">★</span>
-                    <span class="star filled">★</span>
-                    <span class="star filled">★</span>
-                    <span class="star filled">★</span>
-                    <span class="star empty">★</span>
-                  </span>
-                  • Interest: 4%
-                </p>
-              </div>
-            </div>
-            <div class="loan-card-right">
-              <div class="loan-remaining">
-                <p class="remaining-label">Outstanding</p>
-                <p class="remaining-value">5,000 BDT</p>
-              </div>
-              <button class="pay-btn">
-                View Details
-                <span class="material-symbols-outlined">arrow_forward</span>
-              </button>
-            </div>
-          </div>
-          <div class="loan-card-body">
-            <div class="progress-section">
-              <div class="progress-labels">
-                <span class="green-text">Recovered: 3,500 BDT</span>
-                <span class="muted-text">Total: 8,500 BDT</span>
-              </div>
-              <div class="progress-bar-bg">
-                <div class="progress-bar-fill" style="width: 41%"></div>
-              </div>
-            </div>
-            <h5 class="timeline-heading">Recovery Timeline</h5>
-            <div class="timeline">
-              <div class="phase phase-done">
-                <div class="phase-icon green-bg">
-                  <span class="material-symbols-outlined">check</span>
-                </div>
-                <div class="phase-info">
-                  <div class="phase-row">
-                    <p class="phase-name">Installment 1: 3,500 BDT</p>
-                    <span class="phase-status green-text">RECEIVED OCT 5</span>
-                  </div>
-                  <p class="phase-txn">Transaction ID: TXN_99887766</p>
-                </div>
-              </div>
-              <div class="phase phase-due">
-                <div class="phase-icon orange-bg">
-                  <span class="material-symbols-outlined">priority_high</span>
-                </div>
-                <div class="phase-info">
-                  <div class="phase-row">
-                    <p class="phase-name">Installment 2: 5,000 BDT</p>
-                    <span class="phase-status orange-text">DUE NOV 15</span>
-                  </div>
-                  <p class="phase-txn">Awaiting payment from borrower</p>
-                </div>
-              </div>
-            </div>
+        <!-- Active Lending Cards (dynamic) -->
+        <div id="myloans-lent-active-container">
+          <div class="loan-card" style="padding:28px; text-align:center; color:#94a3b8; font-size:14px;">
+            <span class="material-symbols-outlined" style="font-size:40px; display:block; margin-bottom:10px;">hourglass_empty</span>
+            Loading your investments...
           </div>
         </div>
 
@@ -434,26 +227,12 @@
           <div class="list-section">
             <div class="list-header">
               <h4 class="list-title">
-                Pending Lend Requests
-                <span class="count-badge blue-badge">2</span>
+                My Pending Bids
+                <span class="count-badge blue-badge" id="pending-bids-count">0</span>
               </h4>
             </div>
-            <div class="list-card">
-              <div class="list-item-row">
-                <div class="list-item-left">
-                  <div class="list-icon">
-                    <span class="material-symbols-outlined">description</span>
-                  </div>
-                  <div>
-                    <p class="item-title">Request from Karim</p>
-                    <p class="item-meta">Amount: 1,500 BDT • 1 Month term</p>
-                    <span class="status-badge yellow-badge">Awaiting Approval</span>
-                  </div>
-                </div>
-                <button class="cancel-btn">
-                  <span class="material-symbols-outlined">cancel</span>
-                </button>
-              </div>
+            <div class="list-card" id="myloans-lent-bids-container">
+              <p style="padding:16px; text-align:center; color:#94a3b8; font-size:13px;">Loading...</p>
             </div>
           </div>
 
@@ -461,31 +240,11 @@
             <div class="list-header">
               <h4 class="list-title">
                 Recovered Loans
-                <span class="count-badge grey-badge">2</span>
+                <span class="count-badge grey-badge" id="recovered-count-badge">0</span>
               </h4>
-              <button class="view-all-btn">View All</button>
             </div>
-            <div class="list-card">
-              <div class="completed-item">
-                <div class="list-item-left">
-                  <span class="material-symbols-outlined green-icon">verified</span>
-                  <div>
-                    <p class="item-title">Loan to Nabil</p>
-                    <p class="item-meta">Recovered Sep 20 • 2,000 BDT</p>
-                  </div>
-                </div>
-                <span class="status-badge green-badge">Recovered</span>
-              </div>
-              <div class="completed-item">
-                <div class="list-item-left">
-                  <span class="material-symbols-outlined green-icon">verified</span>
-                  <div>
-                    <p class="item-title">Loan to Sabrina</p>
-                    <p class="item-meta">Recovered Aug 10 • 1,000 BDT</p>
-                  </div>
-                </div>
-                <span class="status-badge green-badge">Recovered</span>
-              </div>
+            <div class="list-card" id="myloans-lent-completed-container">
+              <p style="padding:16px; text-align:center; color:#94a3b8; font-size:13px;">Loading...</p>
             </div>
           </div>
         </div>

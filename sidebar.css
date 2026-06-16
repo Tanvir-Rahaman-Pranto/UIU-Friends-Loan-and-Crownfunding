@@ -1,0 +1,136 @@
+/* ================================================================
+   sidebar.css  –  Shared sidebar styles for all UIU Friends pages
+   Matches dashboard exactly.
+   ================================================================ */
+
+.sidebar {
+  width: 250px;
+  background-color: #ffffff;
+  border-right: 1px solid #e2e8f0;
+  padding: 24px 0;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 20px 24px 20px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.logo-icon {
+  width: 42px;
+  height: 42px;
+  background-color: #1e3a8a;
+  color: white;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 16px;
+  box-shadow: 0 4px 6px -1px rgba(30,58,138,0.2);
+  flex-shrink: 0;
+}
+
+.logo-name {
+  font-weight: 800;
+  font-size: 15px;
+  color: #0f172a;
+}
+
+.logo-sub {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+  margin-top: 1px;
+}
+
+.nav-section {
+  font-size: 10px;
+  font-weight: 800;
+  color: #94a3b8;
+  letter-spacing: 1.5px;
+  padding: 24px 20px 8px 20px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 16px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #475569;
+  text-decoration: none;
+  border-radius: 10px;
+  margin: 2px 14px;
+  transition: all 0.2s ease;
+}
+
+.nav-link span.material-symbols-outlined {
+  font-size: 20px;
+  color: #64748b;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  background-color: #f1f5f9;
+  color: #1e3a8a;
+}
+
+.nav-link:hover span.material-symbols-outlined {
+  color: #1e3a8a;
+}
+
+.nav-link.active {
+  background-color: rgba(30,58,138,0.08);
+  color: #1e3a8a;
+  font-weight: 700;
+}
+
+.nav-link.active span.material-symbols-outlined {
+  color: #1e3a8a;
+  font-variation-settings: 'FILL' 1;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 14px;
+}
+
+.nav-link.logout { color: #ef4444; }
+.nav-link.logout span.material-symbols-outlined { color: #ef4444; }
+.nav-link.logout:hover { background-color: #fef2f2; color: #dc2626; }
+.nav-link.logout:hover span.material-symbols-outlined { color: #dc2626; }
+
+/* ── Main content offset — push content right of the fixed sidebar ── */
+/* NOTE: .main-col is intentionally excluded — it is used as an inner content
+   column inside CSS grids (e.g. crowdfunding page) and must not receive the
+   sidebar offset. Only true top-level layout wrappers belong here. */
+.main-content,
+.main-area,
+.main-wrap,
+.main-blur,
+.main,
+main {
+  margin-left: 250px;
+  min-height: 100vh;
+}
+
+/* Ensure wrapper/body doesn't double-offset */
+.wrapper,
+.app-wrapper,
+.page-wrapper {
+  display: flex;
+}

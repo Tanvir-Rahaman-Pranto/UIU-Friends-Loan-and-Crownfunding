@@ -44,51 +44,67 @@
         body { font-family: 'Public Sans', sans-serif; }
         .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
     </style>
+  <link rel="stylesheet" href="sidebar.css" />
 </head>
 <body class="bg-[#f8f6f6] text-slate-900 font-display">
 <div class="flex h-screen overflow-hidden">
     <!-- Sidebar (Same to Same as Stitch Design) -->
-    <aside class="w-64 flex-shrink-0 bg-white border-r border-slate-200 flex flex-col">
-        <div class="p-6 flex items-center gap-3">
-            <div class="h-10 w-10 bg-primary rounded-xl flex items-center justify-center text-white">
-                <span class="material-symbols-outlined">handshake</span>
-            </div>
-            <div>
-                <h1 class="text-primary font-bold text-lg leading-tight">UIU Friends</h1>
-                <p class="text-slate-500 text-xs font-semibold uppercase tracking-wider">Network</p>
-            </div>
+    <div class="sidebar">
+      <div class="logo">
+        <div class="logo-icon">UF</div>
+        <div>
+          <div class="logo-name">UIU Friends</div>
+          <div class="logo-sub">Loan &amp; Crowdfunding</div>
         </div>
-        <nav class="flex-1 px-4 space-y-1 overflow-y-auto">
-            <a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-50 rounded-xl transition-colors" href="deshboard.html">
-                <span class="material-symbols-outlined text-[22px]">dashboard</span>
-                <span class="font-medium text-sm">Dashboard</span>
-            </a>
-            <a class="flex items-center gap-3 px-3 py-2.5 bg-primary/10 text-primary rounded-xl transition-colors" href="crowdfunding.html">
-                <span class="material-symbols-outlined text-[22px] fill-1">campaign</span>
-                <span class="font-bold text-sm">Crowdfunding Hub</span>
-            </a>
-            <a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-50 rounded-xl transition-colors" href="marketplace.html">
-                <span class="material-symbols-outlined text-[22px]">payments</span>
-                <span class="font-medium text-sm">Loan Network</span>
-            </a>
-            <a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-50 rounded-xl transition-colors" href="myloans.html">
-                <span class="material-symbols-outlined text-[22px]">receipt_long</span>
-                <span class="font-medium text-sm">My Loans</span>
-            </a>
-            <a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-50 rounded-xl transition-colors" href="profile.html">
-                <span class="material-symbols-outlined text-[22px]">settings</span>
-                <span class="font-medium text-sm">Settings</span>
-            </a>
-        </nav>
-        <div class="p-4 border-t border-slate-100">
-            <button class="w-full bg-primary text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-primary-hover transition-all" onclick="window.location.reload();">
-                <span class="material-symbols-outlined text-xl">add_circle</span>
-                <span>Start Campaign</span>
-            </button>
-        </div>
-    </aside>
+      </div>
 
-    <div class="flex-1 flex flex-col overflow-hidden">
+      <div class="nav-section">LOAN SYSTEM</div>
+      <a href="dashboard.html" class="nav-link">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span>Dashboard</span>
+      </a>
+      <a href="marketplace.html" class="nav-link">
+        <span class="material-symbols-outlined">storefront</span>
+        <span>Loan Marketplace</span>
+      </a>
+
+      <div class="nav-section">DONATION SYSTEM</div>
+      <a href="crowdfunding.html" class="nav-link active">
+        <span class="material-symbols-outlined">volunteer_activism</span>
+        <span>Crowdfunding Hub</span>
+      </a>
+
+      <div class="nav-section">USER ACCOUNT</div>
+      <a href="myloans.html" class="nav-link">
+        <span class="material-symbols-outlined">account_balance_wallet</span>
+        <span>My Loans</span>
+      </a>
+      <a href="agreement.html" class="nav-link">
+        <span class="material-symbols-outlined">handshake</span>
+        <span>Active Agreements</span>
+      </a>
+      <a href="reviews_trust.html" class="nav-link">
+        <span class="material-symbols-outlined">verified_user</span>
+        <span>Reviews &amp; Trust Score</span>
+      </a>
+      <a href="profile.html" class="nav-link">
+        <span class="material-symbols-outlined">settings</span>
+        <span>Settings &amp; Profile</span>
+      </a>
+
+      <div class="sidebar-footer">
+        <a href="#" class="nav-link">
+          <span class="material-symbols-outlined">help</span>
+          <span>Help &amp; Support</span>
+        </a>
+        <a href="login.html" class="nav-link logout">
+          <span class="material-symbols-outlined">logout</span>
+          <span>Logout</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="flex-1 flex flex-col overflow-hidden" style="margin-left:250px;">
         <!-- Top Navbar -->
         <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 z-10">
             <div class="flex-1 max-w-md relative">
@@ -99,26 +115,26 @@
                 <!-- Trust Score as stars as requested -->
                 <div class="bg-success/10 text-success px-3 py-1.5 rounded-full flex items-center gap-2">
                     <span class="material-symbols-outlined text-lg">verified</span>
-                    <span class="text-xs font-bold whitespace-nowrap">Trust Score: ★★★★★</span>
+                    <span class="text-xs font-bold whitespace-nowrap">Trust Score: <span id="nav-trust-score">…</span></span>
                 </div>
                 <button class="relative p-2 text-slate-600 hover:bg-slate-100 rounded-full transition-colors">
                     <span class="material-symbols-outlined text-2xl">notifications</span>
                     <span class="absolute top-2 right-2 w-2.5 h-2.5 bg-red-500 border-2 border-white rounded-full"></span>
                 </button>
-                <div class="flex items-center gap-3 border-l border-slate-200 pl-6">
+                <a href="profile.html" class="flex items-center gap-3 border-l border-slate-200 pl-6 hover:opacity-85 transition-opacity">
                     <div class="text-right hidden md:block">
-                        <p class="text-sm font-bold text-slate-900 leading-none">Rahim Hasan</p>
+                        <p class="text-sm font-bold text-slate-900 leading-none">Loading...</p>
                         <p class="text-[11px] text-slate-500 font-medium">Gold Contributor</p>
                     </div>
                     <div class="w-10 h-10 rounded-full bg-slate-200 overflow-hidden ring-2 ring-primary/10">
-                        <img class="w-full h-full object-cover" data-alt="Professional portrait of a user named Rahim" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBI24Iy1oWQvtq-OaTwlxXYi_tYCwnNFM8Pz5mvFc5R7cnHLkKdTDj-KpE6KLawsKq1X9V1wLdv3584rroR8cHe7bJtt1W8GSf_mIMKqA8oS6OsJA7sNjgxAknaJ-86H5_ZWF6T_5KTTzHW6aQhIEZIAW9pZ_6JTKAZwHraT3oyfXFAgW5haupiuvVW57bA2y-CiPYNfmF5hTUhTMJBXXAgk9BugfgDHadu-7QWSsEK2CBduPWyK69fv28nWSS792MeReB3yheHw41s"/>
+                        <img class="w-full h-full object-cover" data-alt="User avatar" src="https://ui-avatars.com/api/?name=UIU+User&background=1E3A8A&color=fff"/>
                     </div>
-                </div>
+                </a>
             </div>
         </header>
 
         <!-- Main Content -->
-        <main class="flex-1 overflow-y-auto px-4 md:px-6 py-8">
+        <main class="flex-1 overflow-y-auto px-4 md:px-6 py-8" style="margin-left:0;">
             <div class="max-w-7xl mx-auto">
                 <div class="mb-8">
                     <div class="flex items-center gap-2 text-primary font-semibold text-sm mb-2 uppercase tracking-wide">
